@@ -1,15 +1,29 @@
 const express = require('express');
 const path = require('path');
+const userRouter = require('./routes/userRoute');
 const controller = require('./controller');
 const router = express.Router();
 const app = express();
+const PORT = 3000;
+
+
+
+app.use(express.json());
+app.use(express.urlencoded());
 
 // Build file
 app.use('/build', express.static(path.join(__dirname, '../build')));
 app.use('/', express.static(path.join(__dirname, '../client/')));
+
+app.use('/api/user', userRouter);
+
 // serve index.html
-app.get('/', (req, res) => {
+app.get('/*', (req, res) => {
     res.status(200).sendFile(path.resolve(__dirname, '../index.html'));
+});
+
+router.get('/matches', controller.getMatches, (req, res) => {
+  return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
 });
 
 app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
@@ -25,7 +39,7 @@ app.use((err, req, res, next) => {
     return res.status(errorObj.status).json(errorObj.message);
   });
 
-app.listen(() => console.log(`Listening on port 3000.`));
+app.listen(PORT, () => console.log(`Listening on port 3000.`));
 
 
 
@@ -37,7 +51,7 @@ app.listen(() => console.log(`Listening on port 3000.`));
 // const PORT = 3000;
 // const router = express.Router();
 
-// app.use(express.json());
+
 // app.use('/', router);
 
 // router.get('/', (req, res) => {
@@ -47,10 +61,6 @@ app.listen(() => console.log(`Listening on port 3000.`));
 // router.post('/', MIDDLEWARE (req, res) => {
 //   return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
 // });
-
-router.get('/matches', controller.getMatches, (req, res) => {
-  return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
-});
 
 // router.post('/matches', MIDDLEWARE (req, res) => {
 //   return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
