@@ -4,10 +4,12 @@ const db = require('./dbModel');
 
 controller.getMatches = async (req, res, next) => {
   try {
-    const getMatches =
-    'SELECT login_user FROM matches';
+    const id = 1;
+    const getMatches = `SELECT * FROM Matches WHERE login_user = ${id}`;
     const listOfMatches = await db.query(getMatches);
+    console.log(listOfMatches);
     res.locals.matches = listOfMatches.rows;
+    console.log(res.locals.matches);
     return next();
   } catch (err){
     return next(err);
