@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import Card from "../components/Card.js";
-import { application } from "express";
 
 export default function SwipePage() {
   const [dog, setDog] = useState();
