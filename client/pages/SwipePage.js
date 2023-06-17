@@ -1,6 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+
+import Card from "../components/Card.js";
+import { application } from "express";
+
 export default function SwipePage() {
-    return (
-        <div>Swipe Page</div>
-    )
-};
+  const [dog, setDog] = useState();
+  const [i, setI] = useState(0);
+
+  useEffect(() => {
+    fetch("URL", {
+      method: "GET",
+    })
+      .then((data) => {
+        data.json();
+      })
+      .then(setDog(data));
+  }, []);
+
+  function handleChangeDog() {
+    setI(i + 1);
+  }
+
+  return (
+    <div>
+      <h3>Swipe Page</h3>
+      <Card dogInf={dog[i]} />
+    </div>
+  );
+}

@@ -1,11 +1,13 @@
-import React from 'react';
-import MatchPage from '../client/pages/MatchPage';
-import MatchCard from '../client/components/MatchCard';
+import React from "react";
+
+import MatchPage from "./pages/MatchPage";
+import SwipePage from "./pages/SwipePage";
+
 export default function App() {
-    return (
-        <div>
-            FriendChies
-            <MatchPage/>
-        </div>
-    )
-};
+  return (
+    <div>
+      <h1>FriendChies</h1>
+      <SwipePage />
+    </div>
+  );
+}
