@@ -24,7 +24,7 @@ export default function SwipePage() {
   return (
     <div>
       <h3>Swipe Page</h3>
-      <Card />
+      <Card dogInf={dog[i]} />
     </div>
   );
 }
