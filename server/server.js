@@ -37,13 +37,13 @@ app.listen(3000);
 //   return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
 // });
 
-// router.get('/matches', MIDDLEWARE (req, res) => {
-//   return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
-// });
+router.get('/matches', MIDDLEWARE (req, res) => {
+  return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
+});
 
-// router.post('/matches', MIDDLEWARE (req, res) => {
-//   return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
-// });
+router.post('/matches', MIDDLEWARE (req, res) => {
+  return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
+});
 
 // router.get('/matchCard', MIDDLEWARE (req, res) => {
 //   return res.status(200).sendFile(path.join(__dirname, 'PATH TO MATCHCARD'))
