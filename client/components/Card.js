@@ -1,60 +1,74 @@
 import React from "react";
-export default function Card() {
-  //const { name, owner, breed, size, gender, age } = props;
-  const name = "Pepper";
-  const owner = "Francis";
-  const breed = "French Bulldog";
-  const size = "small";
-  const age = "1 year";
-  const gender = "Female";
-  const link =
-    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fencrypted-tbn3.gstatic.com%2Flicensed-image%3Fq%3Dtbn%3AANd9GcQP_2RN46F8vBMkdRDOZyM2ot9t6cyCICZuaVChqk-XYJJWcjlVzmXwCV9AeZias0QIwj-EKrqsE-e1UfY&psig=AOvVaw0sh4Q-5bmkz1jQ_tJGKkA7&ust=1687102225465000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCJiaydnPyv8CFQAAAAAdAAAAABAE";
-  //const id = "001";
+export default function Card(props) {
+  const { dogInf } = props;
 
   // like function
-  function handleLike() {}
+  function handleLike() {
+    const data = { id: id, userId: userId };
+    //send a post request to back end
+    //fetch ('someURL', method:Post)
+    fetch("URL", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: json.stringify(data),
+    })
+      .then((data) => {
+        data.json();
+      })
+      .then((response) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        next({ err: { message: "match request unsuccessful " } });
+      });
+    //Invoke the parent function to update state of current dog
+    handleChangeDog();
+  }
 
   // dislike function
-  function handledisLike() {}
+  function handleDislike() {
+    //invoke the parent function to update
+    handleChangeDog();
+  }
 
   return (
-    <div>
-      <h3>{name}</h3>
+    <div className="card">
+      <h3>{dogInf.name}</h3>
       {/* Carousel to swipe through pictures? */}
-      <img src={link} />
+      {/* <img className="swipeCardIm" src={link} /> */}
       <ul class="removeBullets">
         <li>
           <label class="cardLabel" id="owner">
             <strong>Owner Name:</strong>
-            {owner}
+            {dogInf.owner}
           </label>
         </li>
 
         <li>
           <label class="cardLabel" id="breed">
             <strong>Breed:</strong>
-            {breed}
+            {dogInf.breed}
           </label>
         </li>
 
         <li>
           <label class="cardLabel" id="size">
             <strong>Size:</strong>
-            {size}
+            {dogInf.size}
           </label>
         </li>
 
         <li>
           <label class="cardLabel" id="breed">
             <strong>Gender:</strong>
-            {gender}
+            {dogInf.gender}
           </label>
         </li>
 
         <li>
           <label class="cardLabel" id="breed">
             <strong>age:</strong>
-            {age}
+            {dogInf.age}
           </label>
         </li>
       </ul>
