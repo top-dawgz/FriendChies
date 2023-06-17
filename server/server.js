@@ -6,8 +6,6 @@ const router = express.Router();
 const app = express();
 const PORT = 3000;
 
-
-
 app.use(express.json());
 app.use(express.urlencoded());
 
@@ -17,13 +15,16 @@ app.use('/', express.static(path.join(__dirname, '../client/')));
 
 app.use('/api/user', userRouter);
 
+// Add this line to include the router
+app.use('/api', router);
+
 // serve index.html
-app.get('/*', (req, res) => {
+app.get('/', (req, res) => {
     res.status(200).sendFile(path.resolve(__dirname, '../index.html'));
 });
 
 router.get('/matches', controller.getMatches, (req, res) => {
-  return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
+  return res.status(200).json(res.locals.matches);
 });
 
 app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
@@ -37,39 +38,6 @@ app.use((err, req, res, next) => {
     const errorObj = Object.assign({}, defaultErr, err);
     console.log(errorObj.log);
     return res.status(errorObj.status).json(errorObj.message);
-  });
+});
 
 app.listen(PORT, () => console.log(`Listening on port 3000.`));
-
-
-
-
-// const express = require('express');
-// const app = require (express());
-// const path = require('path');
-// const controller = require('./controller.js');
-// const PORT = 3000;
-// const router = express.Router();
-
-
-// app.use('/', router);
-
-// router.get('/', (req, res) => {
-//   return res.status(200).sendFile(path.join(__dirname, '../index.html')) // directs to front page
-// });
-
-// router.post('/', MIDDLEWARE (req, res) => {
-//   return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
-// });
-
-// router.post('/matches', MIDDLEWARE (req, res) => {
-//   return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
-// });
-
-// router.get('/matchCard', MIDDLEWARE (req, res) => {
-//   return res.status(200).sendFile(path.join(__dirname, 'PATH TO MATCHCARD'))
-// });
-
-// router.post('/matchCard', MIDDLEWARE (req, res) => {
-//   return res.status(200).sendFile(path.join(__dirname, 'PATH TO MATCHCARD'))
-// });
