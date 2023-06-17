@@ -17,7 +17,7 @@ controller.getAllDogs = async (req, res, next) => {
 controller.getMatches = async (req, res, next) => {
   try {
     const id = 1;
-    const getMatches = `SELECT p.id, p.name, p.owner, p.zip, p.breed, p.size, p.age, p.gender FROM pooches p RIGHT OUTER JOIN matches ON matches.matched_user = p.id WHERE matches.login_user = 1`;
+    const getMatches = 'SELECT p.id, p.name, p.owner, p.zip, p.breed, p.size, p.age, p.gender FROM pooches p RIGHT OUTER JOIN matches ON matches.matched_user = p.id WHERE matches.login_user = 1';
     const listOfMatches = await db.query(getMatches);
     console.log(listOfMatches);
     res.locals.matches = listOfMatches.rows;
