@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const userRouter = require('./routes/userRoute');
+const controller = require('./controller');
+const router = express.Router();
 const app = express();
 
 
@@ -17,7 +19,20 @@ app.get('/*', (req, res) => {
     res.status(200).sendFile(path.resolve(__dirname, '../index.html'));
 });
 
-app.listen(3000);
+app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
+
+app.use((err, req, res, next) => {
+    const defaultErr = {
+      log: 'Express error handler caught unknown middleware error',
+      status: 500,
+      message: { err: 'An error occurred' },
+    };
+    const errorObj = Object.assign({}, defaultErr, err);
+    console.log(errorObj.log);
+    return res.status(errorObj.status).json(errorObj.message);
+  });
+
+app.listen(() => console.log(`Listening on port 3000.`));
 
 
 
@@ -40,9 +55,9 @@ app.listen(3000);
 //   return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
 // });
 
-// router.get('/matches', MIDDLEWARE (req, res) => {
-//   return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
-// });
+router.get('/matches', controller.getMatches, (req, res) => {
+  return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
+});
 
 // router.post('/matches', MIDDLEWARE (req, res) => {
 //   return res.status(200).sendFile(path.join(__dirname, 'PATH TO ALL MATCHES'))
