@@ -6,12 +6,10 @@ export default function SignupPage() {
     const [passVal, setPassVal] = useState("");
 
     async function signup() {
-        console.log(userVal)
-        const response = await axios.post('/api/user/signup', {
+        const response = await axios.post('/user/signup', {
             username: userVal,
             password: passVal
         })
-        console.log(response)
     };
 
     return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import MatchCard from '../components/MatchCard.js';
+import axios from 'axios';
 
 // create fetch request to get database info
 // will come in as an array of  objects
@@ -10,10 +11,11 @@ export default function MatchPage() {
   useEffect(() => {
     const fetchDogs = async () => {
       try {
-        const waitDogs = await fetch('http://localhost:3000/api/matches');
-        const dogs = await waitDogs.json();
-        setDogs(dogs);
-        console.log('Dogs array: ', dogs);
+        // const waitDogs = await fetch('http://localhost:3000/dogs/matches');
+        const response = await axios.get('/api/dogs/matches');
+        // const dogs = await waitDogs.json();
+        // setDogs(dogs);
+        console.log(response)
       }
       catch (err) {
         console.log('There was an error fetching data: ', err);
@@ -25,21 +27,23 @@ export default function MatchPage() {
   return (
     <div>
       <h2>Match Page</h2>
-      {dogs.map((doggos, index) => (
-        <MatchCard
-          key={index}
-          name={doggos.name}
-          breed={doggos.breed}
-          size={doggos.size}
-          age={doggos.age}
-          gender={doggos.gender}
-          owner={doggos.owner}
-          calendarLink={doggos.calendarLink}
-        />
-      ))}
+
     </div>
   );
 }
+
+// {dogs.map((doggos, index) => (
+//   <MatchCard
+//     key={index}
+//     name={doggos.name}
+//     breed={doggos.breed}
+//     size={doggos.size}
+//     age={doggos.age}
+//     gender={doggos.gender}
+//     owner={doggos.owner}
+//     calendarLink={doggos.calendarLink}
+//   />
+// ))}
 
 
  // const dummyArray = [

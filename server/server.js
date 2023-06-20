@@ -1,38 +1,29 @@
 const express = require('express');
 const path = require('path');
+const cors = require("cors");
+
 const userRouter = require('./routes/userRoute');
-const controller = require('./controller');
-const router = express.Router();
+const profileRouter = require('./routes/profileRoute');
+
 const app = express();
+
 const PORT = 3000;
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 
 // Build file
-app.use('/build', express.static(path.join(__dirname, '../build')));
-app.use('/', express.static(path.join(__dirname, '../client/')));
+app.use(express.static('../client/'));
+// app.use('/build', express.static(path.join(__dirname, '../build')));
 
 app.use('/api/user', userRouter);
-
-// Add this line to include the router
-app.use('/api', router);
+app.use('/api/dogs', profileRouter);
 
 // serve index.html
-router.get('/matches', controller.getMatches, (req, res) => {
-  return res.status(200).json(res.locals.matches);
-});
-
-router.get('/dogs', controller.getAllDogs, (req, res) => {
-    return res.status(200).json(res.locals.listOfDogs);
-});
-
 app.get('/*', (req, res) => {
-    res.status(200).sendFile(path.resolve(__dirname, '../index.html'));
+    res.status(200).sendFile(path.resolve(__dirname, '../build/index.html'));
 });
-
-
-
 
 app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
 
