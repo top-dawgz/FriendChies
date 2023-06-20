@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import MatchCard from '../components/MatchCard.js';
@@ -10,7 +11,7 @@ export default function MatchPage() {
   useEffect(() => {
     const fetchDogs = async () => {
       try {
-        const waitDogs = await fetch('http://localhost:3000/api/matches');
+        const waitDogs = await axios.get('/api/matches');
         const dogs = await waitDogs.json();
         setDogs(dogs);
         console.log('Dogs array: ', dogs);
