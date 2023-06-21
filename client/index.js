@@ -9,7 +9,7 @@ import MatchPage from './pages/MatchPage';
 import SwipePage from './pages/SwipePage';
 import "bootstrap/dist/css/bootstrap.min.css"
 import ProfilePage from './pages/ProfilePage';
-import './main.css';
+import './style.css';
 
 const router = createBrowserRouter([
   {
