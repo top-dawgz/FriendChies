@@ -10,6 +10,14 @@ export default function ProfilePage() {
   const [owner, setOwner] = useState('');
   const [about, setAbout] = useState('');
 
+  const [nameEdit, setEditName] = useState(false);
+  const [breedEdit, setEditBreed] = useState(false);
+  const [sexEdit, setEditSex] = useState(false);
+  const [ageEdit, setEditAge] = useState(false);
+  const [sizeEdit, setEditSize] = useState(false);
+  const [ownerEdit, setEditOwner] = useState(false);
+  const [aboutEdit, setEditAbout] = useState(false);
+
   useEffect(() => {
     const getProfile = async () => {
       try {
@@ -33,12 +41,27 @@ export default function ProfilePage() {
   return (
     <div id='myForm'>
       <label>Name:</label>
-      <input
-        onChange={(e) => {
-          setName(e.target.value);
-        }}
-        placeholder={name}
-      ></input>
+      {name === '' || nameEdit ? (
+        <input
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+          onDoubleClick={(e) => {
+            setEditName(false);
+          }}
+          placeholder={name}
+        ></input>
+      ) : (
+        <label
+          onClick={(e) => {
+            setEditName(true);
+          }}
+        >
+          {' '}
+          {name}
+        </label>
+      )}
+
       <div>
         <label>
           Your Image File
@@ -56,14 +79,27 @@ export default function ProfilePage() {
       </div>
       <h2>About me</h2>
       <div width='800px'>
-        <textarea
-          rows='5'
-          cols='80'
-          onChange={(e) => {
-            setAbout(e.target.value);
-          }}
-          placeholder={about}
-        ></textarea>
+        {about === '' || aboutEdit ? (
+          <textarea
+            rows='5'
+            cols='80'
+            onChange={(e) => {
+              setAbout(e.target.value);
+            }}
+            onDoubleClick={(e) => {
+              setEditAbout(false);
+            }}
+            placeholder={about}
+          ></textarea>
+        ) : (
+          <p
+            onClick={(e) => {
+              setEditAbout(true);
+            }}
+          >
+            {about}
+          </p>
+        )}
       </div>
 
       <h2>Basic information</h2>
@@ -71,84 +107,188 @@ export default function ProfilePage() {
         <ul>
           <li>
             <label>Breed:</label>
-            <input
-              onChange={(e) => {
-                setBreed(e.target.value);
-              }}
-              placeholder={breed}
-            ></input>
+            {breed === '' || breedEdit ? (
+              <input
+                onChange={(e) => {
+                  setBreed(e.target.value);
+                }}
+                placeholder={breed}
+                onDoubleClick={(e) => {
+                  setEditBreed(false);
+                }}
+              ></input>
+            ) : (
+              <label
+                onClick={(e) => {
+                  setEditBreed(true);
+                }}
+              >
+                {' '}
+                {breed}
+              </label>
+            )}
           </li>
           <li>
             <label>Sex:</label>
             <label>female</label>
-            <input
-              type='radio'
-              name='sex'
-              value='female'
-              onChange={(e) => {
-                setSex(e.target.value);
-              }}
-            />
+            {sex === 'Female' ? (
+              <input
+                type='radio'
+                name='sex'
+                value='Female'
+                onChange={(e) => {
+                  setSex(e.target.value);
+                }}
+                checked
+              />
+            ) : (
+              <input
+                type='radio'
+                name='sex'
+                value='Female'
+                onChange={(e) => {
+                  setSex(e.target.value);
+                }}
+              />
+            )}
+
             <label>male</label>
-            <input
-              type='radio'
-              name='sex'
-              value='male'
-              onChange={(e) => {
-                setSex(e.target.value);
-              }}
-            />
+            {sex === 'Male' ? (
+              <input
+                type='radio'
+                name='sex'
+                value='Male'
+                onChange={(e) => {
+                  setSex(e.target.value);
+                }}
+                checked
+              />
+            ) : (
+              <input
+                type='radio'
+                name='sex'
+                value='Male'
+                onChange={(e) => {
+                  setSex(e.target.value);
+                }}
+              />
+            )}
           </li>
           <li>
             <label>Age:</label>
-            <input
-              type='number'
-              min='1'
-              max='99'
-              onChange={(e) => {
-                setAge(e.target.value);
-              }}
-              placeholder={age}
-            ></input>
+            {age === undefined || ageEdit ? (
+              <input
+                type='number'
+                min='1'
+                max='99'
+                onChange={(e) => {
+                  setAge(e.target.value);
+                }}
+                onDoubleClick={(e) => {
+                  setEditAge(false);
+                }}
+                placeholder={age}
+              ></input>
+            ) : (
+              <label
+                onClick={(e) => {
+                  setEditAge(true);
+                }}
+              >
+                {' '}
+                {age}
+              </label>
+            )}
           </li>
           <li>
             <label>Size:</label>
             <label>small</label>
-            <input
-              type='radio'
-              name='size'
-              value='small'
-              onChange={(e) => {
-                setSize(e.target.value);
-              }}
-            />
+            {size === 'Small' ? (
+              <input
+                type='radio'
+                name='size'
+                value='Small'
+                onChange={(e) => {
+                  setSize(e.target.value);
+                }}
+                checked
+              />
+            ) : (
+              <input
+                type='radio'
+                name='size'
+                value='Small'
+                onChange={(e) => {
+                  setSize(e.target.value);
+                }}
+              />
+            )}
+
             <label>medium</label>
-            <input
-              type='radio'
-              name='size'
-              value='medium'
-              onChange={(e) => {
-                setSize(e.target.value);
-              }}
-            />
+            {size === 'Medium' ? (
+              <input
+                type='radio'
+                name='size'
+                value='Medium'
+                onChange={(e) => {
+                  setSize(e.target.value);
+                }}
+                checked
+              />
+            ) : (
+              <input
+                type='radio'
+                name='size'
+                value='Medium'
+                onChange={(e) => {
+                  setSize(e.target.value);
+                }}
+              />
+            )}
             <label>big</label>
-            <input
-              type='radio'
-              name='size'
-              value='big'
-              onChange={(e) => {
-                setSize(e.target.value);
-              }}
-            />
+            {size === 'Large' ? (
+              <input
+                type='radio'
+                name='size'
+                value='Large'
+                onChange={(e) => {
+                  setSize(e.target.value);
+                }}
+                checked
+              />
+            ) : (
+              <input
+                type='radio'
+                name='size'
+                value='Large'
+                onChange={(e) => {
+                  setSize(e.target.value);
+                }}
+              />
+            )}
           </li>
           <li>
             <label>Owner:</label>
-            <input
-              onChange={(e) => {
-                setOwner(e.target.value);
-              }}
-              placeholder={owner}
-            ></input>
+            {owner === '' || ownerEdit ? (
+              <input
+                onChange={(e) => {
+                  setOwner(e.target.value);
+                }}
+                placeholder={owner}
+                onDoubleClick={(e) => {
+                  setEditOwner(false);
+                }}
+              ></input>
+            ) : (
+              <label
+                onClick={(e) => {
+                  setEditOwner(true);
+                }}
+              >
+                {' '}
+                {owner}
+              </label>
+            )}
           </li>
         </ul>
       </div>
