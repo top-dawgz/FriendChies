@@ -181,13 +181,13 @@ dogController.updateMatch = async (req, res, next) => {};
 dogController.removeMatch = async (req, res, next) => {
   try {
     const { matchId } = req.body;
-    console.log('matched id', req)
+    console.log('matched id', req.body)
     const deleteQuery = `
     DELETE FROM matches
     WHERE (profile_id = $1 AND match_id = $2) OR (profile_id = $2 AND match_id = $1)
     `;
-    const response = await db.query(deleteQuery, [req.params.profileId, matchId]);
-    console.log(response);
+    await db.query(deleteQuery, [req.params.profileId, matchId]);
+    next();
   } catch (e) {
     next(e);
   }
@@ -201,8 +201,8 @@ dogController.updateLikes = async (req, res, next) => {
     SET liked = false
     WHERE (swiper_id = $1 AND swiped_id = $2);
     `;
-    const response = await db.query(deleteQuery, [req.params.profileId, matchId]);
-    console.log(response);
+    await db.query(deleteQuery, [req.params.profileId, matchId]);
+    next();
   } catch (e) {
     next(e);
   }
