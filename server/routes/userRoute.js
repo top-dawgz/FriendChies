@@ -7,11 +7,11 @@ router.get('/', userController.getUsers, (req, res) => {
 })
 
 //middleware to login
-router.post('/signup', userController.createUser, (req, res) => {
+router.post('/signup', userController.checkUserExists, userController.createUser, (req, res) => {
     res.status(200).send({});
 })
 
-router.post('/login', userController.getLoggedInUserData, (req, res) => {
+router.post('/login', userController.verifyUser, userController.sessions, (req, res) => {
     console.log('ROUTER POST ACTIVATED IN USERROUTER')
     res.status(200).send('swag');
 })
