@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function ProfilePage() {
   const [name, setName] = useState('');
@@ -9,6 +9,26 @@ export default function ProfilePage() {
   const [size, setSize] = useState('');
   const [owner, setOwner] = useState('');
   const [about, setAbout] = useState('');
+
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const response = await axios.get('/api/dogs/1');
+        console.log('profile fetched for 1');
+        console.log(response.data);
+        setName(response.data.name);
+        setBreed(response.data.breed);
+        setSex(response.data.sex);
+        setAge(response.data.age);
+        setSize(response.data.size);
+        setOwner(response.data.owner);
+        setAbout(response.data.about);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getProfile();
+  }, []);
 
   return (
     <div id='myForm'>
