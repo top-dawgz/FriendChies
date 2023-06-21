@@ -69,3 +69,16 @@ body {
 h2 {
   margin: 0;
 }
+
+.carousel-item {
+  text-align: center;
+}
+.carousel-item img {
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+}
+
+.carousel-slide a {
+  background-color: black;
+}

@@ -10,7 +10,6 @@ export default function UserProfile({ dog }) {
     const getProfile = async () => {
       try {
         const response = await axios.get(`/api/dogs/${dog}`);
-        console.log(response.data);
         setDogInfo(response.data);
       } catch (e) {
         console.log(e);
@@ -21,19 +20,17 @@ export default function UserProfile({ dog }) {
 
   return (
     <div>
-      <Carousel interval={null}>
+      <Carousel interval={null} variant="dark">
         <Carousel.Item>
           <img
-            className='d-block w-100'
             src={dogInfo.img_src}
-            alt='Image One'
+            alt='First Profile Pic'
           />
         </Carousel.Item>
         <Carousel.Item>
           <img
-            className='d-block w-100'
             src={dogInfo.img_src}
-            alt='Image One'
+            alt='Second Profile Pic'
           />
         </Carousel.Item>
       </Carousel>
