@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const dogController = require('../controllers/dogController');
+const userController = require("../controllers/userController");
 
 // Get current matches
 router.get('/matches', dogController.getMatches, (req, res) => {
@@ -14,6 +15,7 @@ router.get('/dogs', dogController.getAllDogs, (req, res) => {
 
 router.post(
   '/swipe',
+  userController.getLoggedInUserData,
   dogController.addSwipe,
   dogController.checkForMatch,
   (req, res) => {
