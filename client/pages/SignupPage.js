@@ -5,29 +5,32 @@ import { Form, Button, Card } from 'react-bootstrap'
 import axios from 'axios';
 
 export default function SignupPage() {
-    const passwordConfirmationRef = useRef()
-
 
     //get username and password value
     const [userVal, setUserVal] = useState("");
     const [passVal, setPassVal] = useState("");
+    const [passConfirmationVal, setPassConfirmationVal] = useState("");
     const navigate = useNavigate();
       
       
     async function signup() {
        try {
         console.log('signup function activated');
-        console.log('USERNAME IN', userVal)
-        console.log('PASSWORD IN', passVal)
+        console.log('USERNAME IS', userVal)
+        console.log('PASSWORD IS', passVal)
+        console.log('PASSWORD CONFIRMATION IS', passConfirmationVal)
        
+        console.log('before redirect')
+        // return redirect("/login");
+        navigate("/login")
+
         await axios.post('/api/user/signup', {
             username: userVal,
             password: passVal
             }) 
+            
         
-        console.log('before redirect')
-        // return redirect("/login");
-        navigate("/login")
+        
     }
         catch(err){
             console.log('signupERROR', err)
@@ -35,7 +38,7 @@ export default function SignupPage() {
     };
 
     async function handleSubmit(e) {
-        console.log('handleSubmit has been clicked')
+        console.log('SIGN UP handleSubmit has been clicked')
         e.preventDefault()
         await signup();
     }
@@ -57,7 +60,7 @@ export default function SignupPage() {
                     </Form.Group>
                     <Form.Group id="passwordConfirmation">
                         <Form.Label>Password Confirmation</Form.Label>
-                        <Form.Control type="password" ref={passwordConfirmationRef} required />
+                        <Form.Control onChange={(e) => setPassConfirmationVal(e.target.value)} type="password" value={passConfirmationVal} required />
                     </Form.Group>
                     <Button className="w-100 mt-3" type="submit" onClick={handleSubmit}>Sign Up</Button>
                 </Form>
