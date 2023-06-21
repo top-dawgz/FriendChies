@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import mockData from './mock-data.js';
 import Card from '../components/Card.js';
+import axios from "axios";
 
 export default function SwipePage() {
   const [dogList, setDogList] = useState();
@@ -9,10 +10,12 @@ export default function SwipePage() {
 
   useEffect(() => {
     async function getDogs() {
-      //const response = await axios(''); //Get potential likes
-      const response = mockData;
-      setDogList(response);
-      setCurrentDog(response[0]);
+      const response = await axios('/api/dogs/dogs'); //Get potential likes
+      // const response = mockData;
+      const data = response.data;
+      console.log('data', data)
+      setDogList(data);
+      setCurrentDog(data[0]);
     }
     getDogs();
   }, []);
@@ -24,8 +27,7 @@ export default function SwipePage() {
   return (
     <div>
       <h3>Swipe Page</h3>
-      {currentDog ? <Card goToNextDog={goToNextDog} dog={currentDog} /> : null}
-      <button onClick={goToNextDog}>Next</button>
+      {currentDog ? <Card goToNextDog={goToNextDog} dog={currentDog} /> : <p>There are no more pups left to swipe on!</p>}
     </div>
   );
 }
