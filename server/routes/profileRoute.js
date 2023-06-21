@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const dogController = require('../controllers/dogController');
-const userController = require("../controllers/userController");
+const userController = require('../controllers/userController');
 
 // Get current matches
 router.get('/matches/:profileId', dogController.getMatches, (req, res) => {
@@ -31,12 +31,18 @@ router.get('/:profileId', dogController.getProfile, (req, res) => {
 });
 
 // Create new dog profile
-router.post('/create', userController.getLoggedInUserData, dogController.createProfile, (req, res) => {
+router.post('/create', dogController.createProfile, (req, res) => {
   return res.status(200).send(res.locals.newProfile);
 });
 
-router.put('/matches/:profileId', dogController.removeMatch, dogController.updateLikes, dogController.getMatches, (req,res) => {
-  return res.status(200).send(res.locals.matches);
-})
+router.put(
+  '/matches/:profileId',
+  dogController.removeMatch,
+  dogController.updateLikes,
+  dogController.getMatches,
+  (req, res) => {
+    return res.status(200).send(res.locals.matches);
+  }
+);
 
 module.exports = router;

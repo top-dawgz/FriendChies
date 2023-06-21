@@ -182,7 +182,7 @@ dogController.updateMatch = async (req, res, next) => {};
 dogController.removeMatch = async (req, res, next) => {
   try {
     const { matchId } = req.body;
-    console.log('matched id', req.body)
+    console.log('matched id', req.body);
     const deleteQuery = `
     DELETE FROM matches
     WHERE (profile_id = $1 AND match_id = $2) OR (profile_id = $2 AND match_id = $1)
@@ -212,7 +212,8 @@ dogController.updateLikes = async (req, res, next) => {
 // Create new profile in SQL
 dogController.createProfile = async (req, res, next) => {
   try {
-    const user_id = req.user.id;
+    // const user_id = req.user.id;
+    const user_id = 1;
     const { name, breed, owner, age, sex, size, about } = req.body;
     const query = {
       text: `INSERT into dogProfiles (owner, name, sex, breed, size, age, user_id, about) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);`,
