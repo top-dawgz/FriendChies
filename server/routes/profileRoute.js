@@ -35,4 +35,8 @@ router.post('/create', dogController.createProfile, (req, res) => {
   return res.status(200).send(res.locals.newProfile);
 });
 
+router.delete('/matches/:profileId', dogController.removeMatch, dogController.updateLikes, (req,res) => {
+  return res.status(200).send('match deleted');
+})
+
 module.exports = router;
