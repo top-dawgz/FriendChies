@@ -15,7 +15,7 @@ app.use(express.urlencoded());
 
 // Build file
 app.use(express.static('../client/'));
-// app.use('/build', express.static(path.join(__dirname, '../build')));
+app.use('/build', express.static(path.join(__dirname, '../build')));
 
 app.use('/api/user', userRouter);
 app.use('/api/dogs', profileRouter);
