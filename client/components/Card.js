@@ -1,36 +1,28 @@
+import axios from "axios";
 import React from "react";
 export default function Card(props) {
   const { dog } = props;
 
   // like function
-  function handleLike() {
-    // const data = { id: id, userId: userId };
-    // //send a post request to back end
-    // //fetch ('someURL', method:Post)
-    // fetch("URL", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: json.stringify(data),
-    // })
-    //   .then((data) => {
-    //     data.json();
-    //   })
-    //   .then((response) => {
-    //     console.log(data);
-    //   })
-    //   .catch((err) => {
-    //     next({ err: { message: "match request unsuccessful " } });
-    //   });
-    // //Invoke the parent function to update state of current dog
+  async function handleLike() {
+    await handleSwipe(true);
+  }
+
+  async function handleDislike(){
+    await handleSwipe(false);
+  }
+
+  async function handleSwipe(liked) {
+    const body = {
+      swiper_id: 1, //TODO: Get user info from logged in user
+      swiped_id: props.dog.id,
+      liked: liked
+    }
+    const response = await axios.post('/api/dogs/swipe', body);
+    console.log(response);
     props.goToNextDog();
   }
 
-  // dislike function
-  function handleDislike() {
-    //invoke the parent function to update
-    //handleChangeDog();
-    props.goToNextDog();
-  }
 
   return (
     <div className="card">

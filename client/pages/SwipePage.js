@@ -11,7 +11,6 @@ export default function SwipePage() {
     async function getDogs() {
       //const response = await axios(''); //Get potential likes
       const response = mockData;
-      console.log('response', response);
       setDogList(response);
       setCurrentDog(response[0]);
     }
@@ -22,7 +21,6 @@ export default function SwipePage() {
     setListIndex(listIndex + 1);
     setCurrentDog(dogList[listIndex + 1]);
   }
-  console.log('currentDog', currentDog)
   return (
     <div>
       <h3>Swipe Page</h3>

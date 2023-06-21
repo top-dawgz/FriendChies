@@ -1,6 +1,6 @@
 export default [
-  { id: 42, owner: 'Alex', name: 'Momo', sex: 'Female', breed: 'Corgi', size: 'Small', age: 3 },
-  { id: 43, owner: 'Jiyoung', name: 'Louie', sex: 'Male', breed: 'Bichon', size: 'Small', age: 2 },
+  { id: 2, owner: 'Alex', name: 'Momo', sex: 'Female', breed: 'Corgi', size: 'Small', age: 3 },
+  { id: 3, owner: 'Jiyoung', name: 'Louie', sex: 'Male', breed: 'Bichon', size: 'Small', age: 2 },
   { id: 44, owner: 'Catherine', name: 'Peanut', sex: 'Female', breed: 'Golden Retriever', size: 'Small', age: 4 },
   { id: 45, owner: 'Ruth', name: 'Ryder', sex: 'Male', breed: 'Shiba Inu', size: 'Small', age: 8 },
   { id: 46, owner: 'Ruth', name: 'Jessica', sex: 'Female', breed: 'Shiba Inu', size: 'Medium', age: 1 },
