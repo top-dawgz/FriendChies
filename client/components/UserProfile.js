@@ -39,13 +39,18 @@ export default function UserProfile({ dog }) {
         <h2>{dogInfo.name}</h2>
         <div id='match-owner'>{dogInfo.owner}</div>
       </div>
-      <div className='container py-4 px-3 mx-auto'>
-        <div>{dogInfo.age}</div>
+      <div className='specs'>
+        <strong htmlFor='age'>Age:</strong>
+        <div id='age'>{dogInfo.age}</div>
+        <strong htmlFor='age'>Breed:</strong>
         <div>{dogInfo.breed}</div>
-        <div>{dogInfo.id}</div>
-        <div>{dogInfo.owner}</div>
+        <strong htmlFor='age'>Gender:</strong>
         <div>{dogInfo.sex}</div>
+        <strong htmlFor='age'>Size:</strong>
         <div>{dogInfo.size}</div>
+      </div>
+      <div className="match-description">
+        {dogInfo.about}
       </div>
     </div>
   );
