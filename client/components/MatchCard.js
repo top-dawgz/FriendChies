@@ -6,19 +6,14 @@ import { faHeartCrack } from '@fortawesome/free-solid-svg-icons';
 export default function MatchCard(props) {
   // make an array of dummy data objects
   // loop through the array of objects and get data from each individual object
-  const { id, name, owner, calendarLink, src, setCurrentDog } = props;
+  const { id, name, owner, calendarLink, src, setCurrentDog, removeMatch } = props;
 
   // send calendar invite function - assign to the click property of the functions
   function sendInvite() {
     window.open(calendarLink);
     // alert('Calendar Invite Sent!');
   }
-  // remove match function - assign to the click property of the functions
-  function removeMatch() {
-    // remove that card from the page - still need to add functionality
-    // send a delete request to backend
-    alert('Removed from Matches!');
-  }
+
   return (
     <li
       className='match-selection'
@@ -37,7 +32,7 @@ export default function MatchCard(props) {
         <button id='sendInvite' onClick={sendInvite}>
           <FontAwesomeIcon icon={faCalendar} />
         </button>
-        <button id='removeMatch' onClick={removeMatch}>
+        <button id='removeMatch' onClick={() => removeMatch(id)}>
           <FontAwesomeIcon icon={faHeartCrack} color='red' />
         </button>
       </div>

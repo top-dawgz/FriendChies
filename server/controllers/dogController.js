@@ -17,7 +17,8 @@ dogController.getAllDogs = async (req, res, next) => {
 dogController.getMatches = async (req, res, next) => {
   try {
     // id should be profile id of logged in user
-    const id = 1;
+    const id = req.params.profileId;
+    // const id = 1;
     const getMatches = `
       SELECT name, owner, match_id, img_src
       FROM dogProfiles dp
@@ -176,6 +177,36 @@ dogController.checkForMatch = async (req, res, next) => {
 };
 
 dogController.updateMatch = async (req, res, next) => {};
+
+dogController.removeMatch = async (req, res, next) => {
+  try {
+    const { matchId } = req.body;
+    console.log('matched id', req.body)
+    const deleteQuery = `
+    DELETE FROM matches
+    WHERE (profile_id = $1 AND match_id = $2) OR (profile_id = $2 AND match_id = $1)
+    `;
+    await db.query(deleteQuery, [req.params.profileId, matchId]);
+    next();
+  } catch (e) {
+    next(e);
+  }
+};
+
+dogController.updateLikes = async (req, res, next) => {
+  try {
+    const { matchId } = req.body;
+    const deleteQuery = `
+    UPDATE swipes
+    SET liked = false
+    WHERE (swiper_id = $1 AND swiped_id = $2);
+    `;
+    await db.query(deleteQuery, [req.params.profileId, matchId]);
+    next();
+  } catch (e) {
+    next(e);
+  }
+};
 
 // Create new profile in SQL
 dogController.createProfile = async (req, res, next) => {

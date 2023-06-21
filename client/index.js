@@ -7,7 +7,9 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import MatchPage from './pages/MatchPage';
 import SwipePage from './pages/SwipePage';
+import "bootstrap/dist/css/bootstrap.min.css"
 import ProfilePage from './pages/ProfilePage';
+import './style.css';
 
 const router = createBrowserRouter([
   {

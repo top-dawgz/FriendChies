@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cors = require("cors");
+require('dotenv').config();
 
 const userRouter = require('./routes/userRoute');
 const profileRouter = require('./routes/profileRoute');
@@ -11,7 +12,7 @@ const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }))
 
 // Build file
 app.use(express.static('../client/'));
