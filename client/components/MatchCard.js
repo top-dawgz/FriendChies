@@ -1,10 +1,9 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
 
 export default function MatchCard(props) {
   // make an array of dummy data objects
   // loop through the array of objects and get data from each individual object
-  const { name, owner, breed, size, gender, age, calendarLink } = props;
+  const { name, age, breed, size, sex, owner, calendarLink } = props;
 
   // send calendar invite function - assign to the click property of the functions
   function sendInvite() {
@@ -21,36 +20,36 @@ export default function MatchCard(props) {
     <div>
       <img />
       <h3>{name}</h3>
-      <ul class='removeBullets'>
+      <ul className='removeBullets'>
         <li>
-          <label class='breed'>
+          <label className='breed'>
             <strong>Breed: </strong> {breed}
           </label>
         </li>
 
         <li>
-          <label class='age'>
+          <label className='age'>
             <strong>Age: </strong>
             {age}
           </label>
         </li>
 
         <li>
-          <label class='size'>
+          <label className='size'>
             <strong>Size: </strong>
             {size}
           </label>
         </li>
 
         <li>
-          <label class='gender'>
+          <label className='gender'>
             <strong>Gender: </strong>
-            {gender}
+            {sex}
           </label>
         </li>
 
         <li>
-          <label class='owner'>
+          <label className='owner'>
             <strong>Owner: </strong>
             {owner}
           </label>
@@ -58,11 +57,11 @@ export default function MatchCard(props) {
       </ul>
 
       {/* Send Calendar Invite */}
-      <button class='buttonCard' id='sendInvite' onClick={sendInvite}>
+      <button className='buttonCard' id='sendInvite' onClick={sendInvite}>
         Send Calendar Invite
       </button>
       {/* Remove Match */}
-      <button class='buttonCard' id='removeMatch' onClick={removeMatch}>
+      <button className='buttonCard' id='removeMatch' onClick={removeMatch}>
         Remove from Matches
       </button>
     </div>

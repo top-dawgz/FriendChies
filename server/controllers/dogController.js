@@ -8,17 +8,40 @@ dogController.getAllDogs = async (req, res, next) => {
     const listOfDogs = await db.query(getAllDogs);
     res.locals.listOfDogs = listOfDogs.rows;
     return next();
-  } catch(err) {
+  } catch (err) {
     return next(err);
   }
-}
+};
 
 dogController.getMatches = async (req, res, next) => {
   try {
+    // id should be profile id of logged in user
     const id = 1;
-    const getMatches = 'SELECT p.id, p.name, p.owner, p.zip, p.breed, p.size, p.age, p.gender FROM dogProfiles p RIGHT OUTER JOIN matches ON matches.matched_user = p.id WHERE matches.login_user = 1';
-    const listOfMatches = await db.query(getMatches);
+    const getMatches = `
+      SELECT name, owner
+      FROM dogProfiles dp
+      JOIN matches 
+      ON matches.match_id = dp.profile_id 
+      WHERE matches.user_id = $1
+    `;
+    const listOfMatches = await db.query(getMatches, [id]);
     res.locals.matches = listOfMatches.rows;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
+
+dogController.getProfile = async (req, res, next) => {
+  try {
+    const profileId = req.params.profileId;
+    const getProfile = `
+      SELECT * FROM dogProfiles dp
+      WHERE dp.profile_id = $1
+    `;
+    const profile = await db.query(getProfile, [profileId]);
+    res.locals.profile = profile.rows;
+
     return next();
   } catch (err){
     return next(err);
@@ -41,26 +64,69 @@ dogController.getPotentialMatches = async (req, res, next) => {
       )
       AND owner != ${id}; // excluding the current user's pooch from potential matches
     `;
-    
+
     const potentialMatches = await db.query(getPotentialMatches);
     res.locals.potentialMatches = potentialMatches.rows;
     return next();
-  } catch (err){
+  } catch (err) {
     return next(err);
   }
-}
+};
 
-dogController.addToUserLikes = async (req, res, next) => {
+dogController.addSwipe = async (req, res, next) => {
+  try {
+    const body = req.body;
+    const swiperId = body.swiper_id; //TODO: Get user info from logged in user
+    const swipedId = body.swiped_id;
+    const liked = body.liked;
+    if (!swipedId || !swiperId || liked === undefined) {
+      throw {
+        message: 'Missing property in request body',
+        status: 400,
+      };
+    }
+    let query = {
+      text: `SELECT * FROM dogProfiles WHERE id = $1;`,
+      values: [swipedId],
+    };
+    let response = await db.query(query);
+    query = {
+      text: `INSERT INTO swipes (swiper_id, swiped_id, liked) VALUES ($1, $2, $3);`,
+      values: [swiperId, swipedId, liked],
+    };
+    response = await db.query(query);
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
 
-}
+dogController.addToUserLikes = async (req, res, next) => {};
 
 dogController.checkForMatch = async (req, res, next) => {
+  try {
+    if (req.body.liked === false) {
+      res.locals.matchFound = false;
+      return next();
+    }
+    const body = req.body;
+    const swiperId = body.swiped_id; //TODO: Get user info from logged in user
+    const swipedId = body.swiper_id;
+    query = {
+      text: `SELECT * FROM swipes WHERE swiper_id = $1 AND swiped_id = $2 AND liked = true`,
+      values: [swiperId, swipedId],
+    };
+    // If we find an entry the database, then we have a match
+    const response = await db.query(query);
+    console.log('response.rows[0]', response.rows[0])
+    if (response.rows[0]) res.locals.matchFound = true;
+    else res.locals.matchFound = false;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
 
-}
-
-dogController.updateMatch = async (req, res, next) => {
-
-}
-
+dogController.updateMatch = async (req, res, next) => {};
 
 module.exports = dogController;
