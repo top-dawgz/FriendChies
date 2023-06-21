@@ -24,16 +24,12 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
       {
         // import css
         test: /\.s[ac]ss$/i,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-        ],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
   },
@@ -44,5 +40,5 @@ module.exports = {
       '/api': 'http://localhost:3000',
     },
     historyApiFallback: true,
-  }
+  },
 };

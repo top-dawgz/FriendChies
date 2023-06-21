@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import MatchCard from '../components/MatchCard.js';
 import axios from 'axios';
 
-export default function MatchList() {
+export default function MatchList({ setCurrentDog }) {
   const [matches, setMatches] = useState([]);
   useEffect(() => {
     const fetchDogs = async () => {
@@ -19,20 +19,21 @@ export default function MatchList() {
   }, []);
 
   return (
-    <div>
-      <h2>Match List</h2>
-      {matches.map((dog) => (
-        <MatchCard
-          key={dog.match_id}
-          name={dog.name}
-          age={dog.age}
-          breed={dog.breed}
-          size={dog.size}
-          sex={dog.sex}
-          owner={dog.owner}
-          calendarLink={dog.link}
-        />
-      ))}
+    <div className='match-tab'>
+      <h1>Matches</h1>
+      <div className='match-list'>
+        {matches.map((dog) => (
+          <MatchCard
+            key={dog.match_id}
+            id={dog.match_id}
+            name={dog.name}
+            owner={dog.owner}
+            calendarLink={dog.link}
+            src={dog.img_src}
+            setCurrentDog={setCurrentDog}
+          />
+        ))}
+      </div>
     </div>
   );
-};
+}
