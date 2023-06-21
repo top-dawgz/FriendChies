@@ -136,9 +136,15 @@ export default function ProfilePage() {
         type='submit'
         onClick={(e) => {
           console.log(name, breed, owner, age, sex, size, about);
-          // axios.post('/profile', {
-
-          // })
+          axios.post('/profile/create', {
+            name: name,
+            breed: breed,
+            owner: owner,
+            age: age,
+            sex: sex,
+            size: size,
+            about: about,
+          });
         }}
       >
         SUBMIT

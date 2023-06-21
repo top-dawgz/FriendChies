@@ -1,3 +1,4 @@
+const { query } = require('express');
 const db = require('../models/dbModel');
 
 const dogController = {};
@@ -43,10 +44,10 @@ dogController.getProfile = async (req, res, next) => {
     res.locals.profile = profile.rows;
 
     return next();
-  } catch (err){
+  } catch (err) {
     return next(err);
   }
-}
+};
 
 dogController.getPotentialMatches = async (req, res, next) => {
   try {
@@ -118,7 +119,7 @@ dogController.checkForMatch = async (req, res, next) => {
     };
     // If we find an entry the database, then we have a match
     const response = await db.query(query);
-    console.log('response.rows[0]', response.rows[0])
+    console.log('response.rows[0]', response.rows[0]);
     if (response.rows[0]) res.locals.matchFound = true;
     else res.locals.matchFound = false;
     return next();
@@ -128,5 +129,25 @@ dogController.checkForMatch = async (req, res, next) => {
 };
 
 dogController.updateMatch = async (req, res, next) => {};
+
+// Create new profile in SQL
+dogController.createProfile = async (req, res, next) => {
+  try {
+    // Hardcoded user Id for now
+    req.body = {
+      user_id: 20,
+    };
+    const { name, breed, owner, age, sex, size, about, user_id } = req.body;
+    query = {
+      text: `INSERT into dogProfiles (owner, name, sex, breed, size, age, about) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+      values: [owner, name, sex, breed, size, age, user_id, about],
+    };
+    let response = await db.query(query);
+    res.locals.newProfile = response;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
 
 module.exports = dogController;
