@@ -1,3 +1,4 @@
+const { query } = require('express');
 const db = require('../models/dbModel');
 
 const dogController = {};
@@ -43,10 +44,10 @@ dogController.getProfile = async (req, res, next) => {
     res.locals.profile = profile.rows[0];
 
     return next();
-  } catch (err){
+  } catch (err) {
     return next(err);
   }
-}
+};
 
 dogController.getPotentialMatches = async (req, res, next) => {
   try {
@@ -175,5 +176,32 @@ dogController.checkForMatch = async (req, res, next) => {
 };
 
 dogController.updateMatch = async (req, res, next) => {};
+
+// Create new profile in SQL
+dogController.createProfile = async (req, res, next) => {
+  try {
+    console.log(req.body);
+    // Hardcoded user Id for now
+    req.body = {
+      user_id: 1,
+    };
+    console.log(req.body);
+    const { name, breed, owner, age, sex, size, about, user_id } = req.body;
+    console.log(name, breed);
+    console.log('I made it here');
+    query = {
+      text: `INSERT into dogProfiles (owner, name, sex, breed, size, age, about) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+      values: [owner, name, sex, breed, size, age, user_id, about],
+    };
+    console.log('Fail before response');
+    let response = await db.query(query);
+    console.log('Fail after response');
+    res.locals.newProfile = response;
+    console.log('Fail after locals');
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
 
 module.exports = dogController;
