@@ -134,9 +134,9 @@ export default function ProfilePage() {
       </div>
       <button
         type='submit'
-        onClick={(e) => {
+        onClick={ async (e) => {
           console.log(name, breed, owner, age, sex, size, about);
-          axios.post('/profile/create', {
+          await axios.post('/api/dogs/create', {
             name: name,
             breed: breed,
             owner: owner,
