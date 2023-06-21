@@ -1,5 +1,5 @@
-import axios from "axios";
-import React from "react";
+import axios from 'axios';
+import React from 'react';
 export default function Card(props) {
   const { dog } = props;
 
@@ -8,7 +8,7 @@ export default function Card(props) {
     await handleSwipe(true);
   }
 
-  async function handleDislike(){
+  async function handleDislike() {
     await handleSwipe(false);
   }
 
@@ -18,8 +18,8 @@ export default function Card(props) {
       const body = {
         swiper_id: 1, //TODO: Get user info from logged in user
         swiped_id: props.dog.id,
-        liked: liked
-      }
+        liked: liked,
+      };
       const response = await axios.post('/api/dogs/swipe', body);
       console.log(response);
     } catch (err) {
@@ -27,9 +27,8 @@ export default function Card(props) {
     }
   }
 
-
   return (
-    <div className="card">
+    <div className="card w-4/6">
       <h3 className="text-3xl">{dog.name}</h3>
       {/* Carousel to swipe through pictures? */}
       {/* <img className="swipeCardIm" src={link} /> */}
@@ -71,13 +70,15 @@ export default function Card(props) {
       </ul>
 
       {/* Like Button */}
-      <button className="buttonCard" id="dislike" onClick={handleDislike}>
-        No Paw
-      </button>
-      {/* Dislike Button */}
-      <button className="buttonCard" id="like" onClick={handleLike}>
-        Paw
-      </button>
+      <div className="flex justify-center">
+        <button className="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 bg-blue-300 active:bg-blue-600 dark:md:hover:bg-fuchsia-200 p-1 rounded border-solid border-2 border-sky-500 buttonCard m-1" id="dislike" onClick={handleDislike}>
+          No Paw
+        </button>
+        {/* Dislike Button */}
+        <button className="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 bg-blue-300 active:bg-blue-600 dark:md:hover:bg-fuchsia-200 p-1 rounded border-solid border-2 border-sky-500 buttonCard m-1" id="like" onClick={handleLike}>
+          Paw
+        </button>
+      </div>
     </div>
   );
 }
