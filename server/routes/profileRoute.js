@@ -31,7 +31,7 @@ router.get('/:profileId', dogController.getProfile, (req, res) => {
 });
 
 // Create new dog profile
-router.post('/create', dogController.createProfile, (req, res) => {
+router.post('/create', userController.getLoggedInUserData, dogController.createProfile, (req, res) => {
   return res.status(200).send(res.locals.newProfile);
 });
 

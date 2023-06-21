@@ -95,7 +95,7 @@ dogController.addSwipe = async (req, res, next) => {
     query = {
       text: `SELECT * FROM swipes WHERE swiper_id = $1 AND swiped_id = $2;`,
       values: [swiperId, swipedId],
-    }
+    };
     response = await db.query(query);
     // Do nothing if we get response
     if (response.rows[0]) {
@@ -126,8 +126,8 @@ dogController.checkForMatch = async (req, res, next) => {
     if (swiperId === swipedId) {
       throw {
         message: `The logged in user\'s ID (${swiperId})can not be the same as the swiped user\'s ID (${swipedId})`,
-        status: 400
-      }
+        status: 400,
+      };
     }
     // Check if the swiped user already swiped on the swiper
     query = {
@@ -142,7 +142,7 @@ dogController.checkForMatch = async (req, res, next) => {
     query = {
       text: `SELECT * FROM matches WHERE profile_id = $1 AND match_id = $2`,
       values: [swiperId, swipedId],
-    }
+    };
     response = await db.query(query);
     // If the match does not exist yet
     if (!response.rows[0]) {
@@ -150,7 +150,7 @@ dogController.checkForMatch = async (req, res, next) => {
       query = {
         text: `INSERT INTO matches (profile_id, match_id) VALUES ($1, $2);`,
         values: [swiperId, swipedId],
-      }
+      };
       response = await db.query(query);
     }
     // Add opposite to matches table too
@@ -158,7 +158,7 @@ dogController.checkForMatch = async (req, res, next) => {
     query = {
       text: `SELECT * FROM matches WHERE profile_id = $1 AND match_id = $2`,
       values: [swipedId, swiperId],
-    }
+    };
     response = await db.query(query);
     // If the match does not exist yet
     if (!response.rows[0]) {
@@ -166,7 +166,7 @@ dogController.checkForMatch = async (req, res, next) => {
       query = {
         text: `INSERT INTO matches (profile_id, match_id) VALUES ($1, $2);`,
         values: [swipedId, swiperId],
-      }
+      };
       response = await db.query(query);
     }
     return next();
@@ -180,24 +180,14 @@ dogController.updateMatch = async (req, res, next) => {};
 // Create new profile in SQL
 dogController.createProfile = async (req, res, next) => {
   try {
-    console.log(req.body);
-    // Hardcoded user Id for now
-    req.body = {
-      user_id: 1,
-    };
-    console.log(req.body);
-    const { name, breed, owner, age, sex, size, about, user_id } = req.body;
-    console.log(name, breed);
-    console.log('I made it here');
-    query = {
-      text: `INSERT into dogProfiles (owner, name, sex, breed, size, age, about) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+    const user_id = req.user.id;
+    const { name, breed, owner, age, sex, size, about } = req.body;
+    const query = {
+      text: `INSERT into dogProfiles (owner, name, sex, breed, size, age, user_id, about) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);`,
       values: [owner, name, sex, breed, size, age, user_id, about],
     };
-    console.log('Fail before response');
     let response = await db.query(query);
-    console.log('Fail after response');
     res.locals.newProfile = response;
-    console.log('Fail after locals');
     return next();
   } catch (err) {
     return next(err);
