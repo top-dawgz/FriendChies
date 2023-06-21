@@ -52,8 +52,8 @@ dogController.getProfile = async (req, res, next) => {
 
 dogController.getPotentialMatches = async (req, res, next) => {
   try {
-    const id = req.user.id; // assuming req.user contains the logged-in user's info
-
+    // const id = req.user.id; // assuming req.user contains the logged-in user's info
+    const id = 1;
     // This SQL query returns pooches that the current user has not viewed yet.
     // pooches is now dogProfiles
     const getPotentialMatches = `
@@ -78,7 +78,8 @@ dogController.getPotentialMatches = async (req, res, next) => {
 dogController.addSwipe = async (req, res, next) => {
   try {
     const body = req.body;
-    const swiperId = req.user.id;
+    // const swiperId = req.user.id;
+    const swiperId = 1;
     const swipedId = body.swiped_id;
     const liked = body.liked;
     if (!swipedId || !swiperId || liked === undefined) {
@@ -122,7 +123,7 @@ dogController.checkForMatch = async (req, res, next) => {
       return next();
     }
     const body = req.body;
-    const swiperId = req.user.id;
+    const swiperId = 1;
     const swipedId = body.swiped_id;
     if (swiperId === swipedId) {
       throw {
