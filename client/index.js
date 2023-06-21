@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import MatchPage from './pages/MatchPage';
 import SwipePage from './pages/SwipePage';
+import ProfilePage from './pages/ProfilePage';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: '/swipe',
     element: <SwipePage />,
+  },
+  {
+    path: '/profile',
+    element: <ProfilePage />
   }
 ]);
 
