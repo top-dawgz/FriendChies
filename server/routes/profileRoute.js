@@ -22,4 +22,10 @@ router.post(
   }
 );
 
+// Get single profile
+router.get('/:profileId', dogController.getProfile, (req, res) => {
+  return res.status(200).send(res.locals.profile);
+});
+
+
 module.exports = router;
