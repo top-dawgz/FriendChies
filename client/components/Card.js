@@ -13,14 +13,18 @@ export default function Card(props) {
   }
 
   async function handleSwipe(liked) {
-    const body = {
-      swiper_id: 1, //TODO: Get user info from logged in user
-      swiped_id: props.dog.id,
-      liked: liked
+    try {
+      props.goToNextDog();
+      const body = {
+        swiper_id: 1, //TODO: Get user info from logged in user
+        swiped_id: props.dog.id,
+        liked: liked
+      }
+      const response = await axios.post('/api/dogs/swipe', body);
+      console.log(response);
+    } catch (err) {
+      console.log(err);
     }
-    const response = await axios.post('/api/dogs/swipe', body);
-    console.log(response);
-    props.goToNextDog();
   }
 
 
