@@ -1,22 +1,35 @@
 import React, { useState, useRef } from 'react';
 import { redirect } from "react-router-dom";
 import { Form, Button, Card } from 'react-bootstrap'
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 export default function LoginPage() {
 
     const [userVal, setUserVal] = useState("");
     const [passVal, setPassVal] = useState("");
+    const navigate = useNavigate();
 
     async function login() {
-        const response = await axios.post('/api/user/login', {
-            username: userVal,
-            password: passVal
-        })
+        try {
+
+            await axios.post('/api/user/login', {
+                username: userVal,
+                password: passVal
+            })
+
+            console.log('before redirect')
+        // return redirect("/login");
+            navigate("/profile")
+        }
+        catch(e) {
+            return e;
+        }
+        
     };
 
     async function handleSubmit(e) {
-        console.log('handleSubmit has been clicked')
+        console.log('LOGIN handleSubmit has been clicked')
         e.preventDefault()
         await login();
 
