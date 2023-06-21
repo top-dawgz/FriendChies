@@ -8,7 +8,7 @@ export default function MatchPage() {
 
   return (
     <div className="match-page">
-      <MatchList setCurrentDog={ setCurrentDog } />
+      <MatchList currentDog={ currentDog } setCurrentDog={ setCurrentDog } />
       <div>Match Chat</div>
       <UserProfile dog={ currentDog } />
     </div>
