@@ -65,3 +65,7 @@ body {
 #match-owner {
   font-weight: lighter;
 }
+
+h2 {
+  margin: 0;
+}
