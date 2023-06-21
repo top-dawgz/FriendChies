@@ -1,3 +1,4 @@
+const { query } = require('express');
 const db = require('../models/dbModel');
 
 const dogController = {};
@@ -43,10 +44,10 @@ dogController.getProfile = async (req, res, next) => {
     res.locals.profile = profile.rows[0];
 
     return next();
-  } catch (err){
+  } catch (err) {
     return next(err);
   }
-}
+};
 
 dogController.getPotentialMatches = async (req, res, next) => {
   try {
@@ -76,7 +77,7 @@ dogController.getPotentialMatches = async (req, res, next) => {
 dogController.addSwipe = async (req, res, next) => {
   try {
     const body = req.body;
-    const swiperId = body.swiper_id; //TODO: Get user info from logged in user
+    const swiperId = req.user.id;
     const swipedId = body.swiped_id;
     const liked = body.liked;
     if (!swipedId || !swiperId || liked === undefined) {
@@ -90,6 +91,16 @@ dogController.addSwipe = async (req, res, next) => {
       values: [swipedId],
     };
     let response = await db.query(query);
+    // If the swipe already exists, don't add a duplicate to the table
+    query = {
+      text: `SELECT * FROM swipes WHERE swiper_id = $1 AND swiped_id = $2;`,
+      values: [swiperId, swipedId],
+    }
+    response = await db.query(query);
+    // Do nothing if we get response
+    if (response.rows[0]) {
+      return next();
+    }
     query = {
       text: `INSERT INTO swipes (swiper_id, swiped_id, liked) VALUES ($1, $2, $3);`,
       values: [swiperId, swipedId, liked],
@@ -110,17 +121,54 @@ dogController.checkForMatch = async (req, res, next) => {
       return next();
     }
     const body = req.body;
-    const swiperId = body.swiped_id; //TODO: Get user info from logged in user
-    const swipedId = body.swiper_id;
+    const swiperId = req.user.id;
+    const swipedId = body.swiped_id;
+    if (swiperId === swipedId) {
+      throw {
+        message: `The logged in user\'s ID (${swiperId})can not be the same as the swiped user\'s ID (${swipedId})`,
+        status: 400
+      }
+    }
+    // Check if the swiped user already swiped on the swiper
     query = {
       text: `SELECT * FROM swipes WHERE swiper_id = $1 AND swiped_id = $2 AND liked = true`,
-      values: [swiperId, swipedId],
+      values: [swipedId, swiperId],
     };
     // If we find an entry the database, then we have a match
-    const response = await db.query(query);
-    console.log('response.rows[0]', response.rows[0])
+    let response = await db.query(query);
     if (response.rows[0]) res.locals.matchFound = true;
     else res.locals.matchFound = false;
+    // Check if the new match already exists
+    query = {
+      text: `SELECT * FROM matches WHERE profile_id = $1 AND match_id = $2`,
+      values: [swiperId, swipedId],
+    }
+    response = await db.query(query);
+    // If the match does not exist yet
+    if (!response.rows[0]) {
+      // Add to matches table
+      query = {
+        text: `INSERT INTO matches (profile_id, match_id) VALUES ($1, $2);`,
+        values: [swiperId, swipedId],
+      }
+      response = await db.query(query);
+    }
+    // Add opposite to matches table too
+    // Check if the new match already exists
+    query = {
+      text: `SELECT * FROM matches WHERE profile_id = $1 AND match_id = $2`,
+      values: [swipedId, swiperId],
+    }
+    response = await db.query(query);
+    // If the match does not exist yet
+    if (!response.rows[0]) {
+      // Add to matches table
+      query = {
+        text: `INSERT INTO matches (profile_id, match_id) VALUES ($1, $2);`,
+        values: [swipedId, swiperId],
+      }
+      response = await db.query(query);
+    }
     return next();
   } catch (err) {
     return next(err);
@@ -128,5 +176,32 @@ dogController.checkForMatch = async (req, res, next) => {
 };
 
 dogController.updateMatch = async (req, res, next) => {};
+
+// Create new profile in SQL
+dogController.createProfile = async (req, res, next) => {
+  try {
+    console.log(req.body);
+    // Hardcoded user Id for now
+    req.body = {
+      user_id: 1,
+    };
+    console.log(req.body);
+    const { name, breed, owner, age, sex, size, about, user_id } = req.body;
+    console.log(name, breed);
+    console.log('I made it here');
+    query = {
+      text: `INSERT into dogProfiles (owner, name, sex, breed, size, age, about) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+      values: [owner, name, sex, breed, size, age, user_id, about],
+    };
+    console.log('Fail before response');
+    let response = await db.query(query);
+    console.log('Fail after response');
+    res.locals.newProfile = response;
+    console.log('Fail after locals');
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
 
 module.exports = dogController;
