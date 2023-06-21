@@ -3,20 +3,35 @@ import { useEffect, useState } from 'react';
 import MatchCard from '../components/MatchCard.js';
 import axios from 'axios';
 
-export default function MatchList({ setCurrentDog }) {
+export default function MatchList({ currentDog, setCurrentDog }) {
   const [matches, setMatches] = useState([]);
+  const profileId = 1;
+
   useEffect(() => {
     const fetchDogs = async () => {
       try {
-        const response = await axios.get('/api/dogs/matches');
-        setMatches(response.data);
-        console.log(response.data);
+        const response = await axios.get(`/api/dogs/matches/${profileId}`);
+        const data = await response.data;
+        setMatches(data);
+        setCurrentDog(data[0].match_id)
       } catch (err) {
         console.log('There was an error fetching data: ', err);
       }
     };
     fetchDogs();
   }, []);
+
+  async function removeMatch(matchId) {
+    try {
+      console.log('profileId', profileId, 'matchId', matchId)
+      const response = await axios.put(`/api/dogs/matches/${profileId}`, { matchId });
+      const data = await response.data;
+      setMatches(data);
+      if (matchId === currentDog) setCurrentDog(data[0].match_id);
+    } catch(e) {
+      console.error(e)
+    }
+  }
 
   return (
     <div className='match-tab'>
@@ -31,6 +46,7 @@ export default function MatchList({ setCurrentDog }) {
             calendarLink={dog.link}
             src={dog.img_src}
             setCurrentDog={setCurrentDog}
+            removeMatch={removeMatch}
           />
         ))}
       </div>

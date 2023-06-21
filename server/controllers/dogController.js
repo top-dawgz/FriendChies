@@ -17,7 +17,8 @@ dogController.getAllDogs = async (req, res, next) => {
 dogController.getMatches = async (req, res, next) => {
   try {
     // id should be profile id of logged in user
-    const id = 1;
+    const id = req.params.profileId;
+    // const id = 1;
     const getMatches = `
       SELECT name, owner, match_id, img_src
       FROM dogProfiles dp
@@ -95,7 +96,7 @@ dogController.addSwipe = async (req, res, next) => {
     query = {
       text: `SELECT * FROM swipes WHERE swiper_id = $1 AND swiped_id = $2;`,
       values: [swiperId, swipedId],
-    }
+    };
     response = await db.query(query);
     // Do nothing if we get response
     if (response.rows[0]) {
@@ -126,8 +127,8 @@ dogController.checkForMatch = async (req, res, next) => {
     if (swiperId === swipedId) {
       throw {
         message: `The logged in user\'s ID (${swiperId})can not be the same as the swiped user\'s ID (${swipedId})`,
-        status: 400
-      }
+        status: 400,
+      };
     }
     // Check if the swiped user already swiped on the swiper
     query = {
@@ -142,7 +143,7 @@ dogController.checkForMatch = async (req, res, next) => {
     query = {
       text: `SELECT * FROM matches WHERE profile_id = $1 AND match_id = $2`,
       values: [swiperId, swipedId],
-    }
+    };
     response = await db.query(query);
     // If the match does not exist yet
     if (!response.rows[0]) {
@@ -150,7 +151,7 @@ dogController.checkForMatch = async (req, res, next) => {
       query = {
         text: `INSERT INTO matches (profile_id, match_id) VALUES ($1, $2);`,
         values: [swiperId, swipedId],
-      }
+      };
       response = await db.query(query);
     }
     // Add opposite to matches table too
@@ -158,7 +159,7 @@ dogController.checkForMatch = async (req, res, next) => {
     query = {
       text: `SELECT * FROM matches WHERE profile_id = $1 AND match_id = $2`,
       values: [swipedId, swiperId],
-    }
+    };
     response = await db.query(query);
     // If the match does not exist yet
     if (!response.rows[0]) {
@@ -166,7 +167,7 @@ dogController.checkForMatch = async (req, res, next) => {
       query = {
         text: `INSERT INTO matches (profile_id, match_id) VALUES ($1, $2);`,
         values: [swipedId, swiperId],
-      }
+      };
       response = await db.query(query);
     }
     return next();
@@ -176,6 +177,36 @@ dogController.checkForMatch = async (req, res, next) => {
 };
 
 dogController.updateMatch = async (req, res, next) => {};
+
+dogController.removeMatch = async (req, res, next) => {
+  try {
+    const { matchId } = req.body;
+    console.log('matched id', req.body)
+    const deleteQuery = `
+    DELETE FROM matches
+    WHERE (profile_id = $1 AND match_id = $2) OR (profile_id = $2 AND match_id = $1)
+    `;
+    await db.query(deleteQuery, [req.params.profileId, matchId]);
+    next();
+  } catch (e) {
+    next(e);
+  }
+};
+
+dogController.updateLikes = async (req, res, next) => {
+  try {
+    const { matchId } = req.body;
+    const deleteQuery = `
+    UPDATE swipes
+    SET liked = false
+    WHERE (swiper_id = $1 AND swiped_id = $2);
+    `;
+    await db.query(deleteQuery, [req.params.profileId, matchId]);
+    next();
+  } catch (e) {
+    next(e);
+  }
+};
 
 // Create new profile in SQL
 dogController.createProfile = async (req, res, next) => {
