@@ -10,6 +10,7 @@ import SwipePage from './pages/SwipePage';
 import "bootstrap/dist/css/bootstrap.min.css"
 import ProfilePage from './pages/ProfilePage';
 import './style.css';
+import './main.css';
 
 const router = createBrowserRouter([
   {
