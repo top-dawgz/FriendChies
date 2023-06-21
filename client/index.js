@@ -8,6 +8,7 @@ import SignupPage from './pages/SignupPage';
 import MatchPage from './pages/MatchPage';
 import SwipePage from './pages/SwipePage';
 import "bootstrap/dist/css/bootstrap.min.css"
+import ProfilePage from './pages/ProfilePage';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: '/swipe',
     element: <SwipePage />,
+  },
+  {
+    path: '/profile',
+    element: <ProfilePage />
   }
 ]);
 

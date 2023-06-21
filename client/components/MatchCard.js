@@ -1,14 +1,16 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+import { faHeartCrack } from '@fortawesome/free-solid-svg-icons';
 
 export default function MatchCard(props) {
   // make an array of dummy data objects
   // loop through the array of objects and get data from each individual object
-  const { name, owner, breed, size, gender, age, calendarLink } = props;
+  const { id, name, owner, calendarLink, src, setCurrentDog } = props;
 
   // send calendar invite function - assign to the click property of the functions
   function sendInvite() {
-    window.open(calendarLink)
+    window.open(calendarLink);
     // alert('Calendar Invite Sent!');
   }
   // remove match function - assign to the click property of the functions
@@ -18,53 +20,27 @@ export default function MatchCard(props) {
     alert('Removed from Matches!');
   }
   return (
-    <div>
-      <img />
-      <h3>{name}</h3>
-      <ul class='removeBullets'>
-        <li>
-          <label class='breed'>
-            <strong>Breed: </strong> {breed}
-          </label>
-        </li>
-
-        <li>
-          <label class='age'>
-            <strong>Age: </strong>
-            {age}
-          </label>
-        </li>
-
-        <li>
-          <label class='size'>
-            <strong>Size: </strong>
-            {size}
-          </label>
-        </li>
-
-        <li>
-          <label class='gender'>
-            <strong>Gender: </strong>
-            {gender}
-          </label>
-        </li>
-
-        <li>
-          <label class='owner'>
-            <strong>Owner: </strong>
-            {owner}
-          </label>
-        </li>
-      </ul>
-
-      {/* Send Calendar Invite */}
-      <button class='buttonCard' id='sendInvite' onClick={sendInvite}>
-        Send Calendar Invite
-      </button>
-      {/* Remove Match */}
-      <button class='buttonCard' id='removeMatch' onClick={removeMatch}>
-        Remove from Matches
-      </button>
-    </div>
+    <li
+      className='match-selection'
+      onClick={() => {
+        setCurrentDog(id);
+      }}
+    >
+      <div className='match-details-container'>
+        <img className='match-img' src={src} />
+        <div className='match-names'>
+          <div id='match-pet'>{name}</div>
+          <div id='match-owner'>{owner}</div>
+        </div>
+      </div>
+      <div className="match-buttons">
+        <button id='sendInvite' onClick={sendInvite}>
+          <FontAwesomeIcon icon={faCalendar} />
+        </button>
+        <button id='removeMatch' onClick={removeMatch}>
+          <FontAwesomeIcon icon={faHeartCrack} color='red' />
+        </button>
+      </div>
+    </li>
   );
 }

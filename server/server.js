@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }))
 
 // Build file
 app.use(express.static('../client/'));
-// app.use('/build', express.static(path.join(__dirname, '../build')));
+app.use('/build', express.static(path.join(__dirname, '../build')));
 
 app.use('/api/user', userRouter);
 app.use('/api/dogs', profileRouter);
@@ -34,7 +34,7 @@ app.use((err, req, res, next) => {
       message: { err: 'An error occurred' },
     };
     const errorObj = Object.assign({}, defaultErr, err);
-    console.log(errorObj.log);
+    console.log(errorObj);
     return res.status(errorObj.status).json(errorObj.message);
 });
 

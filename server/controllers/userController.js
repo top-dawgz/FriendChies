@@ -45,4 +45,13 @@ userController.createUser = async (req, res, next) => {
   }
 };
 
+userController.getLoggedInUserData = async (req, res, next) => {
+  //TODO: Get logged in user with JWT and sessions.
+  //Until this is implemented, get the logged in user's id
+  //with req.user.id, which is set to 1.
+  req.user = {
+    id: 1
+  };
+  return next();
+}
 module.exports = userController;
