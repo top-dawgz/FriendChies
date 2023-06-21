@@ -9,8 +9,9 @@ export default function MatchList({ setCurrentDog }) {
     const fetchDogs = async () => {
       try {
         const response = await axios.get('/api/dogs/matches');
-        setMatches(response.data);
-        console.log(response.data);
+        const data = await response.data;
+        setMatches(data);
+        setCurrentDog(data[0].match_id)
       } catch (err) {
         console.log('There was an error fetching data: ', err);
       }
