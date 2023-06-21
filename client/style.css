@@ -84,8 +84,5 @@ h2 {
   background-color: black;
 }
 
-#dislike-button {
-  width: 2rem;
-  height: 2rem;
-  background: url('./assets/poop.png');
-}
+
+/*TODO NEXT: background image will not show with tailwind or vanilla CSS. WHYYYYYY???*/
