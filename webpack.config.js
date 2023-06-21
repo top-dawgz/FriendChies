@@ -29,6 +29,7 @@ module.exports = {
       {
         // import css
         test: /\.s[ac]ss$/i,
+        include: path.resolve(__dirname, 'src'),
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
@@ -36,6 +37,8 @@ module.exports = {
   devServer: {
     port: 8080,
     open: true,
+    hot: true,
+    compress: true,
     proxy: {
       '/api': 'http://localhost:3000',
     },

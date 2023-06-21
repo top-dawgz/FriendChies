@@ -83,3 +83,9 @@ h2 {
 .carousel-slide a {
   background-color: black;
 }
+
+#dislike-button {
+  width: 2rem;
+  height: 2rem;
+  background: url('./assets/poop.png');
+}

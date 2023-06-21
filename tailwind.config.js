@@ -6,7 +6,12 @@ module.exports = {
     './client/**/*.{html,js}'
 ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'paw': "url('./assets/paw.png')",
+        'poop': "url('./assets/poop.png')"
+      }
+    },
   },
   plugins: [],
 }

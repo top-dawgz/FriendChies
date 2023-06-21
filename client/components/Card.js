@@ -71,12 +71,13 @@ export default function Card(props) {
 
       {/* Like Button */}
       <div className="flex justify-center">
-        <button className="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 bg-blue-300 active:bg-blue-600 dark:md:hover:bg-fuchsia-200 p-1 rounded border-solid border-2 border-sky-500 buttonCard m-1" id="dislike" onClick={handleDislike}>
-          No Paw
-        </button>
+        <div className="w-8 h-8 bg-[url('./assets/paw.png')]" id="dislike" onClick={handleDislike}>
+        </div>
+        <div id="dislike-button">
+          </div>
         {/* Dislike Button */}
-        <button className="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 bg-blue-300 active:bg-blue-600 dark:md:hover:bg-fuchsia-200 p-1 rounded border-solid border-2 border-sky-500 buttonCard m-1" id="like" onClick={handleLike}>
-          Paw
+        <button className="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 bg-blue-300 active:bg-blue-600 dark:md:hover:bg-fuchsia-200 p-1 rounded border-solid border-2 border-sky-500 buttonCard m-1 bg-poop" id="like" onClick={handleLike}>
+          
         </button>
       </div>
     </div>
