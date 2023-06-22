@@ -86,13 +86,13 @@ export default function Card(props) {
         <div className="flex justify-center">
           <div
             id="dislike-button"
-            className="active:bg-indigo-500 hover:bg-indigo-300 mr-2 p-1.5 rounded-md w-16 h-16 cursor-pointer border-solid border-2 border-indigo-600"
+            className="flex items-center active:bg-indigo-500 hover:bg-indigo-300 mr-2 p-1.5 rounded-md w-16 h-16 cursor-pointer border-solid border-2 border-indigo-600"
             onClick={handleDislike}
           >
             <img src={poop} />
           </div>
           <div
-            className="active:bg-indigo-500 hover:bg-indigo-300 mr-2 p-1.5 rounded-md w-16 h-16 cursor-pointer border-solid border-2 border-indigo-600"
+            className="flex items-center active:bg-indigo-500 hover:bg-indigo-300 mr-2 p-1.5 rounded-md w-16 h-16 cursor-pointer border-solid border-2 border-indigo-600"
             id="like"
             onClick={handleLike}
           >
