@@ -69,7 +69,7 @@ userController.verifyUser = async (req, res, next) => {
   const { username, password } = req.body;
   console.log('GETLOGGEDIN USERNAME', username);
   console.log('GETLOGGEDIN PASSWORD', password);
-  const findUserSQL = `SELECT * FROM users WHERE (username) = ($1);`
+  const findUserSQL = `SELECT * FROM users WHERE username = $1;`
   
 
   //check if user exist
@@ -108,7 +108,7 @@ userController.verifyUser = async (req, res, next) => {
 userController.sessions = async (req, res, next) => {
   const user = res.locals.userId;
   const jwtToken = await jwt.sign({id: user}, process.env.SECRET_KEY)
-  res.cookie('ssid', jwtToken, {httpOnly: true, secure: true})
+  res.cookie('ssid', jwtToken, {httpOnly: true, secure: false})
   return next();
 }
 

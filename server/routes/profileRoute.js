@@ -8,16 +8,25 @@ router.get('/matches/:profileId', userController.isLoggedIn, dogController.hasPr
   return res.status(200).send(res.locals.matches);
 });
 
+// Get all potential likes
+router.get(
+  '/dogs',
+  userController.isLoggedIn,
+  dogController.getLoggedInUsersDogProfileId,
+  dogController.getAllSwipes,
+  dogController.getAllDogs,
+  (req, res) => {
+    return res.status(200).send(res.locals.listOfDogs);
+  }
+);
+
 router.get('/profiles', userController.isLoggedIn, dogController.getProfiles, (req,res) => {
   return res.status(200).send(res.locals.profile);
 })
-// Get all profiles
-router.get('/dogs', dogController.getAllDogs, (req, res) => {
-  return res.status(200).send(res.locals.listOfDogs);
-});
 
 router.post(
   '/swipe',
+  userController.isLoggedIn,
   dogController.getLoggedInUsersDogProfileId,
   dogController.addSwipe,
   dogController.checkForMatch,
