@@ -24,6 +24,9 @@ export default function Card(props) {
       };
       const response = await axios.post('/api/dogs/swipe', body);
       console.log(response);
+      if (response.data === "A match was found!") {
+        props.alertMatch();
+      }
     } catch (err) {
       console.log(err);
     }
@@ -76,8 +79,14 @@ export default function Card(props) {
 
               <li>
                 <label className="cardLabel" id="breed">
-                  <strong>age: </strong>
+                  <strong>Age: </strong>
                   {dog.age}
+                </label>
+              </li>
+              <li>
+                <label className="cardLabel" id="bio">
+                  <strong>Bio: </strong>
+                  {dog.about}
                 </label>
               </li>
             </ul>
