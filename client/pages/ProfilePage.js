@@ -21,16 +21,18 @@ export default function ProfilePage() {
   useEffect(() => {
     const getProfile = async () => {
       try {
-        const response = await axios.get('/api/dogs/1');
+        const response = await axios.get('/api/dogs/profiles');
         console.log('profile fetched for 1');
-        console.log(response.data);
-        setName(response.data.name);
-        setBreed(response.data.breed);
-        setSex(response.data.sex);
-        setAge(response.data.age);
-        setSize(response.data.size);
-        setOwner(response.data.owner);
-        setAbout(response.data.about);
+        console.log(response);
+        if (response.data !== "") {
+          setName(response.data.name);
+          setBreed(response.data.breed);
+          setSex(response.data.sex);
+          setAge(response.data.age);
+          setSize(response.data.size);
+          setOwner(response.data.owner);
+          setAbout(response.data.about);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -38,6 +40,30 @@ export default function ProfilePage() {
     getProfile();
   }, []);
 
+  async function submitProfile(e) {
+    console.log(name, breed, owner, age, sex, size, about);
+    if (name === '') {
+      await axios.post('/api/dogs/create', {
+        name: name,
+        breed: breed,
+        owner: owner,
+        age: Number(age),
+        sex: sex,
+        size: size,
+        about: about,
+      })
+    } else {
+      await axios.put('/api/dogs/create', {
+        name: name,
+        breed: breed,
+        owner: owner,
+        age: Number(age),
+        sex: sex,
+        size: size,
+        about: about,
+      });
+    }
+  }
   return (
     <div id='myForm'>
       <label>Name:</label>
@@ -45,6 +71,9 @@ export default function ProfilePage() {
         <input
           onChange={(e) => {
             setName(e.target.value);
+          }}
+          onClick={(e) => {
+            setEditName(true);
           }}
           onDoubleClick={(e) => {
             setEditName(false);
@@ -292,23 +321,12 @@ export default function ProfilePage() {
           </li>
         </ul>
       </div>
-      <button
-        type='submit'
-        onClick={async (e) => {
-          console.log(name, breed, owner, age, sex, size, about);
-          await axios.post('/api/dogs/create', {
-            name: name,
-            breed: breed,
-            owner: owner,
-            age: Number(age),
-            sex: sex,
-            size: size,
-            about: about,
-          });
-        }}
-      >
-        SUBMIT
-      </button>
+        <button
+          type='submit'
+          onClick= {(e) => submitProfile(e)}
+        >
+          SUBMIT
+        </button>
     </div>
   );
 }
