@@ -43,13 +43,13 @@ router.get('/:profileId', dogController.getProfile, (req, res) => {
 });
 
 // Create new dog profile
-router.post('/create', userController.isLoggedIn, dogController.createProfile, (req, res) => {
+router.post('/create', userController.isLoggedIn, dogController.getProfileById, dogController.createProfile, dogController.updateProfile, (req, res) => {
   return res.status(200).send(res.locals.newProfile);
 });
 
-router.put('/create', userController.isLoggedIn, dogController.updateProfile, (req, res) => {
-  return res.status(200).send(res.locals.newProfile);
-});
+// router.put('/create', userController.isLoggedIn, dogController.updateProfile, (req, res) => {
+//   return res.status(200).send(res.locals.newProfile);
+// });
 
 router.put(
   '/matches/:profileId',
