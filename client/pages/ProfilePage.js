@@ -24,8 +24,6 @@ export default function ProfilePage() {
     const getProfile = async () => {
       try {
         const response = await axios.get('/api/dogs/profiles');
-        console.log('profile fetched for 1');
-        console.log(response);
         if (response.data !== '') {
           setName(response.data.name);
           setBreed(response.data.breed);
@@ -44,7 +42,6 @@ export default function ProfilePage() {
   }, []);
 
   async function submitProfile(e) {
-    console.log(name, breed, owner, age, sex, size, about);
     await axios.post('/api/dogs/create', {
       name: name,
       breed: breed,
