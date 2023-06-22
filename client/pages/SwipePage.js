@@ -27,7 +27,7 @@ export default function SwipePage() {
   return (
     <div >
       <header>
-      <h3 className="m-3 text-3xl text-center">Swipe Page</h3>
+      <h3 className="m-3 text-3xl text-center">Find Dogs</h3>
       </header>
       <div id="swipe-page-content" className="flex justify-center">
       {currentDog ? <Card goToNextDog={goToNextDog} dog={currentDog} /> : <p>There are no more pups left to swipe on!</p>}
