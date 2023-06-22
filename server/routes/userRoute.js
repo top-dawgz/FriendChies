@@ -13,7 +13,6 @@ router.post('/signup', userController.checkUserExists, userController.createUser
 })
 
 router.post('/login', userController.verifyUser, userController.sessions, (req, res) => {
-    console.log('ROUTER POST ACTIVATED IN USERROUTER')
     res.status(200).send('swag');
 })
 

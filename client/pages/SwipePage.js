@@ -12,9 +12,7 @@ export default function SwipePage() {
   useEffect(() => {
     async function getDogs() {
       const response = await axios('/api/dogs/dogs'); //Get potential likes
-      // const response = mockData;
       const data = response.data;
-      console.log('data', data)
       setDogList(data);
       setCurrentDog(data[0]);
     }

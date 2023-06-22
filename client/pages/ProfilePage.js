@@ -24,8 +24,6 @@ export default function ProfilePage() {
     const getProfile = async () => {
       try {
         const response = await axios.get('/api/dogs/profiles');
-        console.log('profile fetched for 1');
-        console.log(response);
         if (response.data !== '') {
           setName(response.data.name);
           setBreed(response.data.breed);
@@ -44,7 +42,6 @@ export default function ProfilePage() {
   }, []);
 
   async function submitProfile(e) {
-    console.log(name, breed, owner, age, sex, size, about);
     await axios.post('/api/dogs/create', {
       name: name,
       breed: breed,
@@ -60,14 +57,14 @@ export default function ProfilePage() {
   return (
     <div>
       <h3 className="m-3 text-3xl text-center">Profile</h3>
-      <div class="mx-auto w-2/3 p-8 rounded flex flex-column justify-center items-centercard w-1/2 pt-2 pb-4 bg-indigo-50 border-indigo-600 border-2">
+      <div className="mx-auto w-2/3 p-8 rounded flex flex-column justify-center items-centercard w-1/2 pt-2 pb-4 bg-indigo-50 border-indigo-600 border-2">
         <div className="text-center">
-          <label class="font-bold text-center text-2xl font-bold m-3">
+          <label className="font-bold text-center text-2xl font-bold m-3">
             Name:
           </label>
           {name === '' || nameEdit ? (
             <input
-              class="text-2xl"
+              className="text-2xl"
               onChange={(e) => {
                 setName(e.target.value);
               }}
@@ -82,7 +79,7 @@ export default function ProfilePage() {
             ></input>
           ) : (
             <label
-              class="text-2xl"
+              className="text-2xl"
               onClick={(e) => {
                 setEditName(true);
               }}
