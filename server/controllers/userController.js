@@ -120,7 +120,9 @@ userController.isLoggedIn = async (req, res, next) => {
     res.locals.userId = verified.id;
     return next();
   } else {
-    throw new Error('isLoggedIn controller has an error')
+    res.locals.userId = 0;
+    return next();
+    // throw new Error('isLoggedIn controller has an error')
   }
  }
   catch (e) {
