@@ -26,6 +26,7 @@ router.get('/profiles', userController.isLoggedIn, dogController.getProfiles, (r
 
 router.post(
   '/swipe',
+  userController.isLoggedIn,
   dogController.getLoggedInUsersDogProfileId,
   dogController.addSwipe,
   dogController.checkForMatch,

@@ -6,8 +6,25 @@ const dogController = {};
 dogController.getAllDogs = async (req, res, next) => {
   try {
     const getAllDogs = `SELECT * FROM dogProfiles`;
-    const listOfDogs = await db.query(getAllDogs);
-    res.locals.listOfDogs = listOfDogs.rows;
+    const response = await db.query(getAllDogs);
+    let listOfDogs = response.rows;
+    // You can't show up as a potential match. So we have to filter yourself
+    listOfDogs = listOfDogs.filter(dog => {
+      return dog.id !== res.locals.dogProfileId;
+    });
+    // If dogController.getAllSwipes is called before getAllSwipes.getAllDogs,
+    // res.locals.swipes is set to every swipe the logged in user has
+    // In this block, loop through the swipes array, and remove every swipe
+    // that exists in listOfDogs
+    const swipedIds = res.locals.swipedIds;
+    if (swipedIds) {
+      const filteredListOfDogs = listOfDogs.filter(dog => {
+        return !swipedIds.includes(dog.id)
+      });
+      res.locals.listOfDogs = filteredListOfDogs;
+    } else {
+      res.locals.listOfDogs = listOfDogs;
+    }
     return next();
   } catch (err) {
     return next(err);
@@ -24,15 +41,24 @@ dogController.getAllSwipes = async (req, res, next) => {
       }
     }
     const query = {
-      text: `SELECT * FROM swipes WHERE swiped_id = $1;`,
+      text: `SELECT swiped_id FROM swipes WHERE swiper_id = $1;`,
       values: [dogProfileId],
     }
     const response = await db.query(query);
-    console.log(response);
-    res.locals.swipes = response;
+    const swipedIds = [];
+    // I need to destructure each row for the ID to be easily used
+    // by the rest of the program
+    response.rows.forEach(r => {
+      swipedIds.push(r.swiped_id);
+    })
+    console.log('swipedIds', swipedIds)
+    res.locals.swipedIds = swipedIds;
     return next();
   } catch (err) {
     return next(err);
+  }
+}
+
 // checks if params.profileId belongs to user
 dogController.hasProfile  = async (req, res, next) => {
   try {
@@ -163,6 +189,11 @@ dogController.addSwipe = async (req, res, next) => {
 
 dogController.addToUserLikes = async (req, res, next) => {};
 
+
+//TODO NEXT: I suspect this function might be adding too many matches
+//It currently adds the match that I want it to without throwing an error
+//so that's good at least
+
 dogController.checkForMatch = async (req, res, next) => {
   try {
     if (req.body.liked === false) {
@@ -179,17 +210,20 @@ dogController.checkForMatch = async (req, res, next) => {
       };
     }
     // Check if the swiped dog already swiped on the swiper
-    query = {
-      text: `SELECT * FROM swipes WHERE swiper_id = $1 AND swiped_id = $2 AND liked = true`,
+    let query = {
+      text: `SELECT * FROM swipes WHERE swiper_id = $1 AND swiped_id = $2 AND liked = true;`,
       values: [swipedId, swiperId],
     };
     // If we find an entry the database, then we have a match
     let response = await db.query(query);
     if (response.rows[0]) res.locals.matchFound = true;
-    else res.locals.matchFound = false;
+    else {
+      res.locals.matchFound = false;
+      return next();
+    }
     // Check if the new match already exists
     query = {
-      text: `SELECT * FROM matches WHERE profile_id = $1 AND match_id = $2`,
+      text: `SELECT * FROM matches WHERE profile_id = $1 AND match_id = $2;`,
       values: [swiperId, swipedId],
     };
     response = await db.query(query);
@@ -205,7 +239,7 @@ dogController.checkForMatch = async (req, res, next) => {
     // Add opposite to matches table too
     // Check if the new match already exists
     query = {
-      text: `SELECT * FROM matches WHERE profile_id = $1 AND match_id = $2`,
+      text: `SELECT * FROM matches WHERE profile_id = $1 AND match_id = $2;`,
       values: [swipedId, swiperId],
     };
     response = await db.query(query);
@@ -308,7 +342,7 @@ dogController.getLoggedInUsersDogProfileId = async (req, res, next) => {
     }
     const query = {
       text: `SELECT id FROM dogProfiles WHERE user_id = $1;`,
-      values: userId,
+      values: [userId],
     };
     const response = await db.query(query);
     if (!response) {
@@ -321,7 +355,7 @@ dogController.getLoggedInUsersDogProfileId = async (req, res, next) => {
     // If the logged in user has multiple dogProfiles, only the first one will
     // be returned. If we want to add support for multiple dog profiles, this
     // will have to be changed
-    res.locals.dogProfileId = response.rows[0];
+    res.locals.dogProfileId = response.rows[0].id;
     return next();
   } catch (err) {
     return next(err);

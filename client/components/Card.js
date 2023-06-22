@@ -29,6 +29,8 @@ export default function Card(props) {
     }
   }
 
+  //TODO NEXT: test matches
+
   return (
     <div className="card w-1/2 pt-2 pb-4 bg-gray-100" >
       <div className="text-center"id="data">
@@ -72,22 +74,20 @@ export default function Card(props) {
           </li>
         </ul>
       </div>
-      {/* Like Button */}
       <div className="flex justify-center">
-        <div
-          className="active:bg-blue-500 hover:bg-blue-300 mr-2 p-1.5 rounded-md w-16 h-16 cursor-pointer border-solid border-2 border-sky-500"
-          id="like"
-          onClick={handleDislike}
-        >
-          <img src={paw} />
-        </div>
-        {/* Dislike Button */}
         <div
           id="dislike-button"
           className="active:bg-blue-500 hover:bg-blue-300 mr-2 p-1.5 rounded-md w-16 h-16 cursor-pointer border-solid border-2 border-sky-500"
-          onClick={handleLike}
+          onClick={handleDislike}
         >
           <img src={poop} />
+        </div>
+        <div
+          className="active:bg-blue-500 hover:bg-blue-300 mr-2 p-1.5 rounded-md w-16 h-16 cursor-pointer border-solid border-2 border-sky-500"
+          id="like"
+          onClick={handleLike}
+        >
+          <img src={paw} />
         </div>
       </div>
     </div>
