@@ -42,7 +42,6 @@ export default function ProfilePage() {
 
   async function submitProfile(e) {
     console.log(name, breed, owner, age, sex, size, about);
-    if (name === '') {
       await axios.post('/api/dogs/create', {
         name: name,
         breed: breed,
@@ -52,17 +51,6 @@ export default function ProfilePage() {
         size: size,
         about: about,
       })
-    } else {
-      await axios.put('/api/dogs/create', {
-        name: name,
-        breed: breed,
-        owner: owner,
-        age: Number(age),
-        sex: sex,
-        size: size,
-        about: about,
-      });
-    }
   }
   return (
     <div id='myForm'>

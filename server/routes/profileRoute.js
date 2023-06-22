@@ -47,9 +47,9 @@ router.post('/create', userController.isLoggedIn, dogController.createProfile, (
   return res.status(200).send(res.locals.newProfile);
 });
 
-router.put('/create', userController.isLoggedIn, dogController.updateProfile, (req, res) => {
-  return res.status(200).send(res.locals.newProfile);
-});
+// router.put('/create', userController.isLoggedIn, dogController.updateProfile, (req, res) => {
+//   return res.status(200).send(res.locals.newProfile);
+// });
 
 router.put(
   '/matches/:profileId',
