@@ -78,8 +78,7 @@ dogController.getPotentialMatches = async (req, res, next) => {
 dogController.addSwipe = async (req, res, next) => {
   try {
     const body = req.body;
-    // const swiperId = req.user.id;
-    const swiperId = 1;
+    const swiperId = res.locals.dogProfileId;
     const swipedId = body.swiped_id;
     const liked = body.liked;
     if (!swipedId || !swiperId || liked === undefined) {
@@ -123,15 +122,15 @@ dogController.checkForMatch = async (req, res, next) => {
       return next();
     }
     const body = req.body;
-    const swiperId = 1;
+    const swiperId = res.locals.dogProfileId;
     const swipedId = body.swiped_id;
     if (swiperId === swipedId) {
       throw {
-        message: `The logged in user\'s ID (${swiperId})can not be the same as the swiped user\'s ID (${swipedId})`,
+        message: `The logged in user\'s dogProfile ID (${swiperId})can not be the same as the swiped user\'s dogProfile ID (${swipedId})`,
         status: 400,
       };
     }
-    // Check if the swiped user already swiped on the swiper
+    // Check if the swiped dog already swiped on the swiper
     query = {
       text: `SELECT * FROM swipes WHERE swiper_id = $1 AND swiped_id = $2 AND liked = true`,
       values: [swipedId, swiperId],
@@ -221,6 +220,30 @@ dogController.createProfile = async (req, res, next) => {
     };
     let response = await db.query(query);
     res.locals.newProfile = response;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
+
+dogController.getLoggedInUsersDogProfileId = async (req, res, next) => {
+  try {
+    const query = {
+      text: `SELECT id FROM dogProfiles WHERE user_id = $1;`,
+      values: res.locals.userId,
+    };
+    const response = await db.query(query);
+    if (!response) {
+      throw {
+        status: 400,
+        message:
+          'The logged in user does not have a dogProfile, or there is no logged in user',
+      };
+    }
+    // If the logged in user has multiple dogProfiles, only the first one will
+    // be returned. If we want to add support for multiple dog profiles, this
+    // will have to be changed
+    res.locals.dogProfileId = response.rows[0];
     return next();
   } catch (err) {
     return next(err);

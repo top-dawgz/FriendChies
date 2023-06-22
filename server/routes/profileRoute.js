@@ -15,7 +15,7 @@ router.get('/dogs', dogController.getAllDogs, (req, res) => {
 
 router.post(
   '/swipe',
-  // userController.getLoggedInUserData,
+  dogController.getLoggedInUsersDogProfileId,
   dogController.addSwipe,
   dogController.checkForMatch,
   (req, res) => {

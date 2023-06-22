@@ -19,7 +19,6 @@ export default function Card(props) {
     try {
       props.goToNextDog();
       const body = {
-        swiper_id: 1, //TODO: Get user info from logged in user
         swiped_id: props.dog.id,
         liked: liked,
       };
