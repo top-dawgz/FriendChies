@@ -55,6 +55,7 @@ export default function ProfilePage() {
       about: about,
       image: image,
     });
+    window.location.reload();
   }
   return (
     <div>
