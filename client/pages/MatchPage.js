@@ -26,7 +26,7 @@ export default function MatchPage() {
   return (
     <div className="match-page">
       {profileId === -1 ?<div>No matches</div> : <MatchList currentDog={ currentDog } setCurrentDog={ setCurrentDog } profileId={profileId} />}
-      {currentDog===-1 ? <div>No profile </div> : <MatchChat profileId={profileId} matchId={ currentDog }/>}
+      {currentDog===-1 ? <div className="text-2xl text-center m-3">No profile </div> : <MatchChat profileId={profileId} matchId={ currentDog }/>}
       {currentDog===-1 ? <div>No profile </div> : <UserProfile dog={ currentDog } />}
 
     </div>

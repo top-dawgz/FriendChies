@@ -36,7 +36,7 @@ export default function MatchList({ profileId, currentDog, setCurrentDog }) {
 
   return (
     <div className='match-tab'>
-      <h1>Matches</h1>
+      <h1 className="text-2xl text-center m-3">Matches</h1>
       <div className='match-list'>
         {matches.map((dog) => (
           <MatchCard

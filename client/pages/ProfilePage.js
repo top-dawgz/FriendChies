@@ -52,13 +52,16 @@ export default function ProfilePage() {
       about: about,
       image: image,
     });
+    window.location.reload();
   }
   return (
     <div>
       <h3 className="m-3 text-3xl text-center">Profile</h3>
       <div className="mx-auto w-2/3 p-8 rounded flex flex-column justify-center items-centercard w-1/2 pt-2 pb-4 bg-indigo-50 border-indigo-600 border-2">
         <div className="text-center">
-          <label className="text-center text-2xl font-bold m-3">Name:</label>
+          <label className="font-bold text-center text-2xl font-bold m-3">
+            Name:
+          </label>
           {name === '' || nameEdit ? (
             <input
               className="text-2xl"
@@ -93,8 +96,9 @@ export default function ProfilePage() {
               height="400px"
               width="400px"
             ></img>
-            
-            <label>Your Image File</label>
+
+            <label className="font-bold mt-2">Your Image File</label>
+            <br />
             {name === '' || imageEdit ? (
               <input
                 onChange={(e) => {
@@ -110,7 +114,7 @@ export default function ProfilePage() {
                 placeholder="your url"
               ></input>
             ) : (
-              <label
+              <label className="mb-2"
                 onClick={(e) => {
                   setEditImage(true);
                 }}
@@ -120,12 +124,12 @@ export default function ProfilePage() {
               </label>
             )}
           </div>
-          <h2>About me</h2>
+          <h2 className="font-bold">About me</h2>
           <div width="800px">
             {about === '' || aboutEdit ? (
               <textarea
+                className="w-full"
                 rows="5"
-                cols="80"
                 onChange={(e) => {
                   setAbout(e.target.value);
                 }}
@@ -148,12 +152,14 @@ export default function ProfilePage() {
               </p>
             )}
           </div>
-
-          <h2>Basic information</h2>
           <div>
             <ul>
-              <li>
-                <label>Breed:</label>
+              <li className="m-2">
+                <label className="font-bold">
+                  Breed
+                  <br />
+                </label>
+                <br />
                 {breed === '' || breedEdit ? (
                   <input
                     onChange={(e) => {
@@ -179,11 +185,13 @@ export default function ProfilePage() {
                   </label>
                 )}
               </li>
-              <li>
-                <label>Sex:</label>
+              <li className="m-2">
+                <label className="font-bold">Sex</label>
+                <br />
                 <label>female</label>
                 {sex === 'Female' ? (
                   <input
+                    className="m-1"
                     type="radio"
                     name="sex"
                     value="Female"
@@ -194,6 +202,7 @@ export default function ProfilePage() {
                   />
                 ) : (
                   <input
+                    className="m-1"
                     type="radio"
                     name="sex"
                     value="Female"
@@ -206,6 +215,7 @@ export default function ProfilePage() {
                 <label>male</label>
                 {sex === 'Male' ? (
                   <input
+                    className="m-1"
                     type="radio"
                     name="sex"
                     value="Male"
@@ -216,6 +226,7 @@ export default function ProfilePage() {
                   />
                 ) : (
                   <input
+                    className="m-1"
                     type="radio"
                     name="sex"
                     value="Male"
@@ -225,8 +236,9 @@ export default function ProfilePage() {
                   />
                 )}
               </li>
-              <li>
-                <label>Age:</label>
+              <li className="m-2">
+                <label className="font-bold">Age</label>
+                <br />
                 {age === undefined || ageEdit ? (
                   <input
                     type="number"
@@ -255,11 +267,13 @@ export default function ProfilePage() {
                   </label>
                 )}
               </li>
-              <li>
-                <label>Size:</label>
+              <li className="m-2">
+                <label className="font-bold">Size</label>
+                <br />
                 <label>small</label>
                 {size === 'Small' ? (
                   <input
+                    className="m-1"
                     type="radio"
                     name="size"
                     value="Small"
@@ -270,6 +284,7 @@ export default function ProfilePage() {
                   />
                 ) : (
                   <input
+                    className="m-1"
                     type="radio"
                     name="size"
                     value="Small"
@@ -282,6 +297,7 @@ export default function ProfilePage() {
                 <label>medium</label>
                 {size === 'Medium' ? (
                   <input
+                    className="m-1"
                     type="radio"
                     name="size"
                     value="Medium"
@@ -292,6 +308,7 @@ export default function ProfilePage() {
                   />
                 ) : (
                   <input
+                    className="m-1"
                     type="radio"
                     name="size"
                     value="Medium"
@@ -303,6 +320,7 @@ export default function ProfilePage() {
                 <label>big</label>
                 {size === 'Large' ? (
                   <input
+                    className="m-1"
                     type="radio"
                     name="size"
                     value="Large"
@@ -313,6 +331,7 @@ export default function ProfilePage() {
                   />
                 ) : (
                   <input
+                    className="m-1"
                     type="radio"
                     name="size"
                     value="Large"
@@ -322,8 +341,9 @@ export default function ProfilePage() {
                   />
                 )}
               </li>
-              <li>
-                <label>Owner:</label>
+              <li className="m-2">
+                <label className="font-bold">Owner</label>
+                <br />
                 {owner === '' || ownerEdit ? (
                   <input
                     onChange={(e) => {
@@ -351,9 +371,15 @@ export default function ProfilePage() {
               </li>
             </ul>
           </div>
-          <button type="submit" onClick={(e) => submitProfile(e)}>
-            SUBMIT
-          </button>
+          <div className="flex justify-center">
+            <div
+              className="flex items-center justify-center active:bg-indigo-500 hover:bg-indigo-300 mr-2 p-1.5 rounded-md w-24 h-12 cursor-pointer border-solid border-2 border-indigo-600"
+              type="submit"
+              onClick={(e) => submitProfile(e)}
+            >
+              SUBMIT
+            </div>
+          </div>
         </div>
       </div>
     </div>
