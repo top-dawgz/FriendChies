@@ -10,9 +10,8 @@ export default function MatchList({ profileId, currentDog, setCurrentDog }) {
   useEffect(() => {
     const fetchDogs = async () => {
       try {
-        console.log(profileId)
+        if (profileId === -1) return;
         const response = await axios.get(`/api/dogs/matches/${profileId}`);
-        console.log(response)
         const data = await response.data;
         setMatches(data);
         setCurrentDog(data[0].match_id)
