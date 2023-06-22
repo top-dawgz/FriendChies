@@ -9,6 +9,7 @@ export default function ProfilePage() {
   const [size, setSize] = useState('');
   const [owner, setOwner] = useState('');
   const [about, setAbout] = useState('');
+  const [image, setImage] = useState('');
 
   const [nameEdit, setEditName] = useState(false);
   const [breedEdit, setEditBreed] = useState(false);
@@ -17,6 +18,7 @@ export default function ProfilePage() {
   const [sizeEdit, setEditSize] = useState(false);
   const [ownerEdit, setEditOwner] = useState(false);
   const [aboutEdit, setEditAbout] = useState(false);
+  const [imageEdit, setEditImage] = useState(false);
 
   useEffect(() => {
     const getProfile = async () => {
@@ -24,7 +26,7 @@ export default function ProfilePage() {
         const response = await axios.get('/api/dogs/profiles');
         console.log('profile fetched for 1');
         console.log(response);
-        if (response.data !== "") {
+        if (response.data !== '') {
           setName(response.data.name);
           setBreed(response.data.breed);
           setSex(response.data.sex);
@@ -32,6 +34,7 @@ export default function ProfilePage() {
           setSize(response.data.size);
           setOwner(response.data.owner);
           setAbout(response.data.about);
+          setImage(response.data.img_src);
         }
       } catch (err) {
         console.log(err);
@@ -42,57 +45,74 @@ export default function ProfilePage() {
 
   async function submitProfile(e) {
     console.log(name, breed, owner, age, sex, size, about);
-      await axios.post('/api/dogs/create', {
-        name: name,
-        breed: breed,
-        owner: owner,
-        age: Number(age),
-        sex: sex,
-        size: size,
-        about: about,
-      })
+    await axios.post('/api/dogs/create', {
+      name: name,
+      breed: breed,
+      owner: owner,
+      age: Number(age),
+      sex: sex,
+      size: size,
+      about: about,
+      image: image,
+    });
   }
   return (
-    <div id='myForm'>
-      <label>Name:</label>
-      {name === '' || nameEdit ? (
-        <input
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-          onClick={(e) => {
-            setEditName(true);
-          }}
-          onDoubleClick={(e) => {
-            setEditName(false);
-          }}
-          placeholder={name}
-        ></input>
-      ) : (
-        <label
-          onClick={(e) => {
-            setEditName(true);
-          }}
-        >
-          {' '}
-          {name}
-        </label>
-      )}
+    <div class='flex flex-column justify-center items-center'>
+      <div>
+        <label class='text-2xl font-bold'>Name:</label>
+        {name === '' || nameEdit ? (
+          <input class='text-2xl'
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            onClick={(e) => {
+              setEditName(true);
+            }}
+            onDoubleClick={(e) => {
+              setEditName(false);
+            }}
+            value={name}
+            placeholder={name}
+          ></input>
+        ) : (
+          <label class='text-2xl'
+            onClick={(e) => {
+              setEditName(true);
+            }}
+          >
+            {' '}
+            {name}
+          </label>
+        )}
+      </div>
 
       <div>
-        <label>
-          Your Image File
+        <img src={image} height='400px' width='400px'></img>
+        <label>Your Image File</label>
+        {name === '' || imageEdit ? (
           <input
-            type='file'
-            name='myImage'
-            accept='image/png, image/gif, image/jpeg'
-          />
-        </label>
-        <img
-          src='https://i.redd.it/lw9juo1qu7v91.jpg'
-          height='400px'
-          width='400px'
-        ></img>
+            onChange={(e) => {
+              setImage(e.target.value);
+            }}
+            onClick={(e) => {
+              setEditImage(true);
+            }}
+            onDoubleClick={(e) => {
+              setEditImage(false);
+            }}
+            value={image}
+            placeholder='your url'
+          ></input>
+        ) : (
+          <label
+            onClick={(e) => {
+              setEditImage(true);
+            }}
+          >
+            {' '}
+            Update picture
+          </label>
+        )}
       </div>
       <h2>About me</h2>
       <div width='800px'>
@@ -103,9 +123,13 @@ export default function ProfilePage() {
             onChange={(e) => {
               setAbout(e.target.value);
             }}
+            onClick={(e) => {
+              setEditAbout(true);
+            }}
             onDoubleClick={(e) => {
               setEditAbout(false);
             }}
+            value={about}
             placeholder={about}
           ></textarea>
         ) : (
@@ -129,10 +153,14 @@ export default function ProfilePage() {
                 onChange={(e) => {
                   setBreed(e.target.value);
                 }}
-                placeholder={breed}
                 onDoubleClick={(e) => {
                   setEditBreed(false);
                 }}
+                onClick={(e) => {
+                  setEditBreed(true);
+                }}
+                value={breed}
+                placeholder={breed}
               ></input>
             ) : (
               <label
@@ -204,6 +232,10 @@ export default function ProfilePage() {
                 onDoubleClick={(e) => {
                   setEditAge(false);
                 }}
+                onClick={(e) => {
+                  setEditAge(true);
+                }}
+                value={age}
                 placeholder={age}
               ></input>
             ) : (
@@ -291,9 +323,13 @@ export default function ProfilePage() {
                 onChange={(e) => {
                   setOwner(e.target.value);
                 }}
+                value={owner}
                 placeholder={owner}
                 onDoubleClick={(e) => {
                   setEditOwner(false);
+                }}
+                onClick={(e) => {
+                  setEditOwner(true);
                 }}
               ></input>
             ) : (
@@ -309,12 +345,9 @@ export default function ProfilePage() {
           </li>
         </ul>
       </div>
-        <button
-          type='submit'
-          onClick= {(e) => submitProfile(e)}
-        >
-          SUBMIT
-        </button>
+      <button type='submit' onClick={(e) => submitProfile(e)}>
+        SUBMIT
+      </button>
     </div>
   );
 }
