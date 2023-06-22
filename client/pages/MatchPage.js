@@ -21,7 +21,7 @@ export default function MatchPage() {
   return (
     <div className="match-page">
       <MatchList currentDog={ currentDog } setCurrentDog={ setCurrentDog } profileId={profileId} />
-      <div>Match Chat</div>
+      <div className="text-2xl text-center m-3">Match Chat</div>
       <UserProfile dog={ currentDog } />
     </div>
   );
