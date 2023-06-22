@@ -3,6 +3,7 @@ import MatchList from '../components/MatchList';
 import UserProfile from '../components/UserProfile';
 import "../style.css";
 import axios from 'axios';
+import MatchChat from '../components/MatchChat';
 
 export default function MatchPage() {
   const [ currentDog, setCurrentDog ] = useState(-1);
@@ -21,7 +22,7 @@ export default function MatchPage() {
   return (
     <div className="match-page">
       <MatchList currentDog={ currentDog } setCurrentDog={ setCurrentDog } profileId={profileId} />
-      <div>Match Chat</div>
+      <MatchChat />
       <UserProfile dog={ currentDog } />
     </div>
   );

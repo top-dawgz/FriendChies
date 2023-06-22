@@ -7,6 +7,7 @@ require('dotenv').config();
 
 const userRouter = require('./routes/userRoute');
 const profileRouter = require('./routes/profileRoute');
+const chatRouter = require('./routes/chatRoute');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/build', express.static(path.join(__dirname, '../build')));
 
 app.use('/api/user', userRouter);
 app.use('/api/dogs', profileRouter);
+app.use('/api/chat', chatRouter);
 
 // serve index.html
 app.get('/*', (req, res) => {

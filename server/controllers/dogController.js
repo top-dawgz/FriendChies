@@ -1,4 +1,3 @@
-const { query } = require('express');
 const db = require('../models/dbModel');
 
 const dogController = {};
@@ -91,7 +90,6 @@ dogController.getMatches = async (req, res, next) => {
   try {
     // id should be profile id of logged in user
     const id = req.params.profileId;
-    // const id = 1;
     const getMatches = `
       SELECT name, owner, match_id, img_src
       FROM dogProfiles dp
@@ -100,7 +98,6 @@ dogController.getMatches = async (req, res, next) => {
       WHERE matches.profile_id = $1
     `;
     const listOfMatches = await db.query(getMatches, [id]);
-    console.log('HELLLOOO', req.params.profileId)
     res.locals.matches = listOfMatches.rows;
     return next();
   } catch (err) {
