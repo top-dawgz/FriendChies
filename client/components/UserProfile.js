@@ -20,36 +20,38 @@ export default function UserProfile({ dog }) {
 
   return (
     <div>
+    <h1 className="text-2xl text-center m-3">Profile</h1>
       <Carousel interval={null} variant="dark">
         <Carousel.Item>
-          <img
+          <img className="flex items-center active:bg-indigo-500 hover:bg-indigo-300 mr-2 rounded-md w-16 h-16 cursor-pointer border-solid border-2 border-indigo-600"
             src={dogInfo.img_src}
             alt='First Profile Pic'
           />
         </Carousel.Item>
         <Carousel.Item>
-          <img
+          <img className="flex items-center active:bg-indigo-500 hover:bg-indigo-300 mr-2 rounded-md w-16 h-16 cursor-pointer border-solid border-2 border-indigo-600"
             src={dogInfo.img_src}
             alt='Second Profile Pic'
           />
         </Carousel.Item>
       </Carousel>
       
-      <div className='match-names'>
+      <div className='match-names mt-2'>
         <h2>{dogInfo.name}</h2>
-        <div id='match-owner'>{dogInfo.owner}</div>
+        <div className="mb-2" id='match-owner'>{dogInfo.owner}</div>
       </div>
       <div className='specs'>
         <strong htmlFor='age'>Age:</strong>
-        <div id='age'>{dogInfo.age}</div>
+        <div id='age' className="mb-2">{dogInfo.age}</div>
         <strong htmlFor='age'>Breed:</strong>
-        <div>{dogInfo.breed}</div>
+        <div className="mb-2">{dogInfo.breed}</div>
         <strong htmlFor='age'>Gender:</strong>
-        <div>{dogInfo.sex}</div>
+        <div className="mb-2">{dogInfo.sex}</div>
         <strong htmlFor='age'>Size:</strong>
-        <div>{dogInfo.size}</div>
+        <div className="mb-2">{dogInfo.size}</div>
       </div>
       <div className="match-description">
+        <strong htmlFor='bio'>Bio:</strong><br />
         {dogInfo.about}
       </div>
     </div>

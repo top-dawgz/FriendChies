@@ -13,10 +13,10 @@ export default function MatchCard(props) {
     window.open(calendarLink);
     // alert('Calendar Invite Sent!');
   }
-
+//flex items-center active:bg-indigo-500 hover:bg-indigo-300 mr-2 rounded-md w-16 h-16 cursor-pointer border-solid border-2 border-indigo-600
   return (
     <li
-      className='match-selection'
+      className='match-selection border-solid border-2 border-indigo-600'
       onClick={() => {
         setCurrentDog(id);
       }}

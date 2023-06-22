@@ -4,7 +4,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 export default function Navbar() {
   return (
     <>
-      <div class='flex items-center justify-between flex-wrap bg-gradient-to-r from-indigo-50 to-indigo-100 p-6'>
+      <div className='flex items-center justify-between flex-wrap bg-gradient-to-r from-indigo-50 to-indigo-100 p-6'>
         <NavLink
           to='/profile'
           className={({ isActive, isPending }) =>

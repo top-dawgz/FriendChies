@@ -5,7 +5,6 @@ import poop from '../assets/poop.png';
 
 export default function Card(props) {
   const { dog } = props;
-  console.log('dog', dog);
   // like function
   async function handleLike() {
     await handleSwipe(true);
@@ -23,7 +22,9 @@ export default function Card(props) {
         liked: liked,
       };
       const response = await axios.post('/api/dogs/swipe', body);
-      console.log(response);
+      if (response.data === "A match was found!") {
+        props.alertMatch();
+      }
     } catch (err) {
       console.log(err);
     }
@@ -76,8 +77,14 @@ export default function Card(props) {
 
               <li>
                 <label className="cardLabel" id="breed">
-                  <strong>age: </strong>
+                  <strong>Age: </strong>
                   {dog.age}
+                </label>
+              </li>
+              <li>
+                <label className="cardLabel" id="bio">
+                  <strong>Bio: </strong>
+                  {dog.about}
                 </label>
               </li>
             </ul>
@@ -86,13 +93,13 @@ export default function Card(props) {
         <div className="flex justify-center">
           <div
             id="dislike-button"
-            className="active:bg-indigo-500 hover:bg-indigo-300 mr-2 p-1.5 rounded-md w-16 h-16 cursor-pointer border-solid border-2 border-indigo-600"
+            className="flex items-center active:bg-indigo-500 hover:bg-indigo-300 mr-2 p-1.5 rounded-md w-16 h-16 cursor-pointer border-solid border-2 border-indigo-600"
             onClick={handleDislike}
           >
             <img src={poop} />
           </div>
           <div
-            className="active:bg-indigo-500 hover:bg-indigo-300 mr-2 p-1.5 rounded-md w-16 h-16 cursor-pointer border-solid border-2 border-indigo-600"
+            className="flex items-center active:bg-indigo-500 hover:bg-indigo-300 mr-2 p-1.5 rounded-md w-16 h-16 cursor-pointer border-solid border-2 border-indigo-600"
             id="like"
             onClick={handleLike}
           >
