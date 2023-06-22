@@ -3,14 +3,16 @@ import { useEffect, useState } from 'react';
 import MatchCard from '../components/MatchCard.js';
 import axios from 'axios';
 
-export default function MatchList({ currentDog, setCurrentDog }) {
+export default function MatchList({ profileId, currentDog, setCurrentDog }) {
   const [matches, setMatches] = useState([]);
-  const profileId = 1;
+  // const profileId = 1;
 
   useEffect(() => {
     const fetchDogs = async () => {
       try {
+        console.log(profileId)
         const response = await axios.get(`/api/dogs/matches/${profileId}`);
+        console.log(response)
         const data = await response.data;
         setMatches(data);
         setCurrentDog(data[0].match_id)
@@ -19,7 +21,7 @@ export default function MatchList({ currentDog, setCurrentDog }) {
       }
     };
     fetchDogs();
-  }, []);
+  }, [profileId]);
 
   async function removeMatch(matchId) {
     try {

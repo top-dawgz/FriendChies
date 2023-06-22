@@ -33,6 +33,31 @@ dogController.getAllSwipes = async (req, res, next) => {
     return next();
   } catch (err) {
     return next(err);
+// checks if params.profileId belongs to user
+dogController.hasProfile  = async (req, res, next) => {
+  try {
+    const searchQuery = 'SELECT * FROM dogProfiles WHERE user_id=$1 AND id=$2';
+    const response = await db.query(searchQuery, [res.locals.userId, req.params.profileId])
+    const data = response.rows;
+
+    if (!data.length) return next({log: 'profile not valid'})
+    return next();
+  } catch(err) {
+    return next(err)
+  }
+}
+
+// gets all dogProfiles belonging to user
+dogController.getProfiles  = async (req, res, next) => {
+  try {
+    const profileQuery = `SELECT * FROM dogProfiles WHERE user_id=$1`
+    const result = await db.query(profileQuery, [res.locals.userId]);
+    const data = result.rows;
+    //TODO: return multiple profiles
+    res.locals.profile = data[0];
+    return next();
+  } catch(err) {
+    return next(err)
   }
 }
 
@@ -49,6 +74,7 @@ dogController.getMatches = async (req, res, next) => {
       WHERE matches.profile_id = $1
     `;
     const listOfMatches = await db.query(getMatches, [id]);
+    console.log('HELLLOOO', req.params.profileId)
     res.locals.matches = listOfMatches.rows;
     return next();
   } catch (err) {
@@ -234,7 +260,7 @@ dogController.updateLikes = async (req, res, next) => {
 dogController.createProfile = async (req, res, next) => {
   try {
     // const user_id = req.user.id;
-    const user_id = 1;
+    const user_id = res.locals.userId;
     const { name, breed, owner, age, sex, size, about } = req.body;
     const query = {
       text: `INSERT into dogProfiles (owner, name, sex, breed, size, age, user_id, about) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);`,
@@ -247,6 +273,29 @@ dogController.createProfile = async (req, res, next) => {
     return next(err);
   }
 };
+
+// Create new profile in SQL
+dogController.updateProfile = async (req, res, next) => {
+  try {
+    // const user_id = req.user.id;
+    const user_id = res.locals.userId;
+    const { name, breed, owner, age, sex, size, about } = req.body;
+    const query = {
+      text: `UPDATE dogProfiles
+             SET owner = $1, name = $2, sex = $3, breed = $4, size = $5, age = $6, about = $7
+             WHERE user_id = $8;`,
+      values: [owner, name, sex, breed, size, age, about, user_id],
+    };
+
+    let response = await db.query(query);
+    res.locals.newProfile = response;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
+
+
 
 dogController.getLoggedInUsersDogProfileId = async (req, res, next) => {
   try {

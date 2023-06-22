@@ -113,16 +113,19 @@ userController.sessions = async (req, res, next) => {
 }
 
 userController.isLoggedIn = async (req, res, next) => {
+  // should set res.locals.userId to be userId
  try {
   console.log('req.cookies', req.cookies)
   if (req.cookies.ssid) {
-    jwt.verify(req.cookies.ssid, process.env.SECRET_KEY)
+    const verified = await jwt.verify(req.cookies.ssid, process.env.SECRET_KEY)
+    res.locals.userId = verified.id;
     return next();
   } else {
     throw new Error('isLoggedIn controller has an error')
   }
  }
   catch (e) {
+    console.error(e)
     return next(e)
   }
 }
