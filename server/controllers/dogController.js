@@ -230,7 +230,7 @@ dogController.getLoggedInUsersDogProfileId = async (req, res, next) => {
   try {
     const query = {
       text: `SELECT id FROM dogProfiles WHERE user_id = $1;`,
-      values: [1], //TODO: CHANGE THIS TO THE LOGGED IN USER ID ONCE IMPLEMENTED
+      values: res.locals.userId,
     };
     const response = await db.query(query);
     if (!response) {
