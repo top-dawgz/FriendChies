@@ -116,8 +116,11 @@ dogController.getProfile = async (req, res, next) => {
       WHERE dp.id = $1
     `;
     const profile = await db.query(getProfile, [profileId]);
-    res.locals.profile = profile.rows[0];
-
+    if (!profile.rows.length) {
+      res.locals.profile = {};
+    } else {
+      res.locals.profile = profile.rows[0];
+    }
     return next();
   } catch (err) {
     return next(err);

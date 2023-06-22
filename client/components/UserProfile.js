@@ -20,21 +20,15 @@ export default function UserProfile({ dog }) {
 
   return (
     <div>
-      <Carousel interval={null} variant="dark">
+      <Carousel interval={null} variant='dark'>
         <Carousel.Item>
-          <img
-            src={dogInfo.img_src}
-            alt='First Profile Pic'
-          />
+          <img src={dogInfo.img_src} alt='First Profile Pic' />
         </Carousel.Item>
         <Carousel.Item>
-          <img
-            src={dogInfo.img_src}
-            alt='Second Profile Pic'
-          />
+          <img src={dogInfo.img_src} alt='Second Profile Pic' />
         </Carousel.Item>
       </Carousel>
-      
+
       <div className='match-names'>
         <h2>{dogInfo.name}</h2>
         <div id='match-owner'>{dogInfo.owner}</div>
@@ -49,9 +43,7 @@ export default function UserProfile({ dog }) {
         <strong htmlFor='age'>Size:</strong>
         <div>{dogInfo.size}</div>
       </div>
-      <div className="match-description">
-        {dogInfo.about}
-      </div>
+      <div className='match-description'>{dogInfo.about}</div>
     </div>
   );
 }

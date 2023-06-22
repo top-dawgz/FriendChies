@@ -12,18 +12,23 @@ export default function MatchPage() {
   // get the users profiles and set profileId to the first one
   useEffect(() => {
     const getProfile = async () => {
-      const response = await axios.get('/api/dogs/profiles');
-      const profileIdData = response.data.id;
-      setProfileId(profileIdData);
+      try {
+        const response = await axios.get('/api/dogs/profiles');
+        const profileIdData = response.data.id;
+        setProfileId(profileIdData);
+      } catch(err) {
+        console.error(err);
+      }
     }
     getProfile();
   },[]);
 
   return (
     <div className="match-page">
-      <MatchList currentDog={ currentDog } setCurrentDog={ setCurrentDog } profileId={profileId} />
-      <MatchChat profileId={profileId} matchId={ currentDog }/>
-      <UserProfile dog={ currentDog } />
+      {profileId === -1 ?<div>No matches</div> : <MatchList currentDog={ currentDog } setCurrentDog={ setCurrentDog } profileId={profileId} />}
+      {currentDog===-1 ? <div>No profile </div> : <MatchChat profileId={profileId} matchId={ currentDog }/>}
+      {currentDog===-1 ? <div>No profile </div> : <UserProfile dog={ currentDog } />}
+
     </div>
   );
 }
