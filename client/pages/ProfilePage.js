@@ -61,7 +61,8 @@ export default function ProfilePage() {
       <div>
         <label class='text-2xl font-bold'>Name:</label>
         {name === '' || nameEdit ? (
-          <input class='text-2xl'
+          <input
+            class='text-2xl'
             onChange={(e) => {
               setName(e.target.value);
             }}
@@ -75,7 +76,8 @@ export default function ProfilePage() {
             placeholder={name}
           ></input>
         ) : (
-          <label class='text-2xl'
+          <label
+            class='text-2xl'
             onClick={(e) => {
               setEditName(true);
             }}
@@ -175,9 +177,10 @@ export default function ProfilePage() {
           </li>
           <li>
             <label>Sex:</label>
-            <label>female</label>
             {sex === 'Female' ? (
               <input
+                id='input1'
+                className='hidden peer'
                 type='radio'
                 name='sex'
                 value='Female'
@@ -188,6 +191,8 @@ export default function ProfilePage() {
               />
             ) : (
               <input
+                id='input1'
+                className='hidden peer'
                 type='radio'
                 name='sex'
                 value='Female'
@@ -196,10 +201,19 @@ export default function ProfilePage() {
                 }}
               />
             )}
+            <label
+              for='input1'
+              className={`peer-checked:border-indigo-600 p-2 border-solid border-2 border-indigo-200 rounded-lg ease-in lm-10 ${
+                sex === 'Female' ? 'bg-indigo-200' : ''
+              }`}
+            >
+              female
+            </label>
 
-            <label>male</label>
             {sex === 'Male' ? (
               <input
+                id='input2'
+                className='hidden peer'
                 type='radio'
                 name='sex'
                 value='Male'
@@ -210,6 +224,8 @@ export default function ProfilePage() {
               />
             ) : (
               <input
+                id='input2'
+                className='hidden peer'
                 type='radio'
                 name='sex'
                 value='Male'
@@ -218,6 +234,14 @@ export default function ProfilePage() {
                 }}
               />
             )}
+            <label
+              for='input2'
+              className={`peer-checked:border-indigo-600 p-2 border-solid border-2 border-indigo-200 rounded-lg ease-in lm-10 ${
+                sex === 'Male' ? 'bg-indigo-200' : ''
+              }`}
+            >
+              male
+            </label>
           </li>
           <li>
             <label>Age:</label>
