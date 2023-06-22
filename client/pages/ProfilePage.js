@@ -56,15 +56,15 @@ export default function ProfilePage() {
   }
   return (
     <div>
-      <h3 className="m-3 text-3xl text-center">Profile</h3>
-      <div className="mx-auto w-2/3 p-8 rounded flex flex-column justify-center items-centercard w-1/2 pt-2 pb-4 bg-indigo-50 border-indigo-600 border-2">
-        <div className="text-center">
-          <label className="font-bold text-center text-2xl font-bold m-3">
+      <h3 className='m-3 text-3xl text-center'>Profile</h3>
+      <div className='mx-auto w-2/3 p-8 rounded flex flex-column justify-center items-centercard w-1/2 pt-2 pb-4 bg-indigo-50 border-indigo-600 border-2'>
+        <div className='text-center'>
+          <label className='font-bold text-center text-2xl font-bold m-3'>
             Name:
           </label>
           {name === '' || nameEdit ? (
             <input
-              className="text-2xl"
+              className='text-2xl'
               onChange={(e) => {
                 setName(e.target.value);
               }}
@@ -79,7 +79,7 @@ export default function ProfilePage() {
             ></input>
           ) : (
             <label
-              className="text-2xl"
+              className='text-2xl'
               onClick={(e) => {
                 setEditName(true);
               }}
@@ -91,13 +91,13 @@ export default function ProfilePage() {
 
           <div>
             <img
-              className="mx-auto rounded max-w-full max-h-full rounded border-2 border-indigo-500"
+              className='mx-auto rounded max-w-full max-h-full rounded border-2 border-indigo-500'
               src={image}
-              height="400px"
-              width="400px"
+              height='400px'
+              width='400px'
             ></img>
 
-            <label className="font-bold mt-2">Your Image File</label>
+            <label className='font-bold mt-2'>Your Image File</label>
             <br />
             {name === '' || imageEdit ? (
               <input
@@ -111,10 +111,11 @@ export default function ProfilePage() {
                   setEditImage(false);
                 }}
                 value={image}
-                placeholder="your url"
+                placeholder='your url'
               ></input>
             ) : (
-              <label className="mb-2"
+              <label
+                className='mb-2'
                 onClick={(e) => {
                   setEditImage(true);
                 }}
@@ -124,12 +125,12 @@ export default function ProfilePage() {
               </label>
             )}
           </div>
-          <h2 className="font-bold">About me</h2>
-          <div width="800px">
+          <h2 className='font-bold'>About me</h2>
+          <div width='800px'>
             {about === '' || aboutEdit ? (
               <textarea
-                className="w-full"
-                rows="5"
+                className='w-full'
+                rows='5'
                 onChange={(e) => {
                   setAbout(e.target.value);
                 }}
@@ -154,8 +155,8 @@ export default function ProfilePage() {
           </div>
           <div>
             <ul>
-              <li className="m-2">
-                <label className="font-bold">
+              <li className='m-2'>
+                <label className='font-bold'>
                   Breed
                   <br />
                 </label>
@@ -185,16 +186,16 @@ export default function ProfilePage() {
                   </label>
                 )}
               </li>
-              <li className="m-2">
-                <label className="font-bold">Sex</label>
+              <li className='m-2'>
+                <label className='font-bold'>Sex</label>
                 <br />
-                <label>female</label>
                 {sex === 'Female' ? (
                   <input
-                    className="m-1"
-                    type="radio"
-                    name="sex"
-                    value="Female"
+                    id='input1'
+                    className='m-1 hidden peer'
+                    type='radio'
+                    name='sex'
+                    value='Female'
                     onChange={(e) => {
                       setSex(e.target.value);
                     }}
@@ -202,23 +203,32 @@ export default function ProfilePage() {
                   />
                 ) : (
                   <input
-                    className="m-1"
-                    type="radio"
-                    name="sex"
-                    value="Female"
+                    id='input1'
+                    className='m-1 hidden peer'
+                    type='radio'
+                    name='sex'
+                    value='Female'
                     onChange={(e) => {
                       setSex(e.target.value);
                     }}
                   />
                 )}
+                <label
+                  for='input1'
+                  className={`peer-checked:border-indigo-600 p-2 border-solid mx-2 my-1 border-2 border-indigo-600 rounded-lg ease-in lm-10 ${
+                    sex === 'Female' ? 'bg-indigo-200' : ''
+                  }`}
+                >
+                  female
+                </label>
 
-                <label>male</label>
                 {sex === 'Male' ? (
                   <input
-                    className="m-1"
-                    type="radio"
-                    name="sex"
-                    value="Male"
+                    id='input2'
+                    className='m-1 hidden peer'
+                    type='radio'
+                    name='sex'
+                    value='Male'
                     onChange={(e) => {
                       setSex(e.target.value);
                     }}
@@ -226,24 +236,33 @@ export default function ProfilePage() {
                   />
                 ) : (
                   <input
-                    className="m-1"
-                    type="radio"
-                    name="sex"
-                    value="Male"
+                    id='input2'
+                    className='m-1 hidden peer'
+                    type='radio'
+                    name='sex'
+                    value='Male'
                     onChange={(e) => {
                       setSex(e.target.value);
                     }}
                   />
                 )}
+                <label
+                  for='input2'
+                  className={`peer-checked:border-indigo-600 p-2 border-solid mx-2 my-1 border-2 border-indigo-600 rounded-lg ease-in lm-10 ${
+                    sex === 'Male' ? 'bg-indigo-200' : ''
+                  }`}
+                >
+                  male
+                </label>
               </li>
-              <li className="m-2">
-                <label className="font-bold">Age</label>
+              <li className='mx-2'>
+                <label className='font-bold'>Age</label>
                 <br />
                 {age === undefined || ageEdit ? (
                   <input
-                    type="number"
-                    min="1"
-                    max="99"
+                    type='number'
+                    min='1'
+                    max='99'
                     onChange={(e) => {
                       setAge(e.target.value);
                     }}
@@ -267,16 +286,17 @@ export default function ProfilePage() {
                   </label>
                 )}
               </li>
-              <li className="m-2">
-                <label className="font-bold">Size</label>
+              <li className='m-2'>
+                <label className='font-bold'>Size</label>
                 <br />
-                <label>small</label>
+
                 {size === 'Small' ? (
                   <input
-                    className="m-1"
-                    type="radio"
-                    name="size"
-                    value="Small"
+                    id='input3'
+                    className='m-1 hidden peer'
+                    type='radio'
+                    name='size'
+                    value='Small'
                     onChange={(e) => {
                       setSize(e.target.value);
                     }}
@@ -284,23 +304,32 @@ export default function ProfilePage() {
                   />
                 ) : (
                   <input
-                    className="m-1"
-                    type="radio"
-                    name="size"
-                    value="Small"
+                    id='input3'
+                    className='m-1 hidden peer'
+                    type='radio'
+                    name='size'
+                    value='Small'
                     onChange={(e) => {
                       setSize(e.target.value);
                     }}
                   />
                 )}
+                <label
+                  for='input3'
+                  className={`peer-checked:border-indigo-600 p-2 border-solid mx-2 my-2 border-2 border-indigo-600 rounded-lg ease-in lm-10 ${
+                    size === 'Small' ? 'bg-indigo-200' : ''
+                  }`}
+                >
+                  small
+                </label>
 
-                <label>medium</label>
                 {size === 'Medium' ? (
                   <input
-                    className="m-1"
-                    type="radio"
-                    name="size"
-                    value="Medium"
+                    id='input4'
+                    className='m-1 hidden peer'
+                    type='radio'
+                    name='size'
+                    value='Medium'
                     onChange={(e) => {
                       setSize(e.target.value);
                     }}
@@ -308,22 +337,32 @@ export default function ProfilePage() {
                   />
                 ) : (
                   <input
-                    className="m-1"
-                    type="radio"
-                    name="size"
-                    value="Medium"
+                    id='input4'
+                    className='m-1 hidden peer'
+                    type='radio'
+                    name='size'
+                    value='Medium'
                     onChange={(e) => {
                       setSize(e.target.value);
                     }}
                   />
                 )}
-                <label>big</label>
+                <label
+                  for='input4'
+                  className={`peer-checked:border-indigo-600 p-2 border-solid mx-2 my-2 border-2 border-indigo-600 rounded-lg ease-in lm-10 ${
+                    size === 'Medium' ? 'bg-indigo-200' : ''
+                  }`}
+                >
+                  medium
+                </label>
+
                 {size === 'Large' ? (
                   <input
-                    className="m-1"
-                    type="radio"
-                    name="size"
-                    value="Large"
+                    id='input5'
+                    className='m-1 hidden peer'
+                    type='radio'
+                    name='size'
+                    value='Large'
                     onChange={(e) => {
                       setSize(e.target.value);
                     }}
@@ -331,18 +370,27 @@ export default function ProfilePage() {
                   />
                 ) : (
                   <input
-                    className="m-1"
-                    type="radio"
-                    name="size"
-                    value="Large"
+                    id='input5'
+                    className='m-1 hidden peer'
+                    type='radio'
+                    name='size'
+                    value='Large'
                     onChange={(e) => {
                       setSize(e.target.value);
                     }}
                   />
                 )}
+                <label
+                  for='input5'
+                  className={`peer-checked:border-indigo-600 p-2 border-solid mx-2 border-2 border-indigo-600 rounded-lg ease-in lm-10 ${
+                    size === 'Large' ? 'bg-indigo-200' : ''
+                  }`}
+                >
+                  big
+                </label>
               </li>
-              <li className="m-2">
-                <label className="font-bold">Owner</label>
+              <li className='m-2'>
+                <label className='font-bold'>Owner</label>
                 <br />
                 {owner === '' || ownerEdit ? (
                   <input
@@ -371,10 +419,10 @@ export default function ProfilePage() {
               </li>
             </ul>
           </div>
-          <div className="flex justify-center">
+          <div className='flex justify-center'>
             <div
-              className="flex items-center justify-center active:bg-indigo-500 hover:bg-indigo-300 mr-2 p-1.5 rounded-md w-24 h-12 cursor-pointer border-solid border-2 border-indigo-600"
-              type="submit"
+              className='flex items-center justify-center active:bg-indigo-500 hover:bg-indigo-300 mr-2 p-1.5 rounded-md w-24 h-12 cursor-pointer border-solid border-2 border-indigo-600'
+              type='submit'
               onClick={(e) => submitProfile(e)}
             >
               SUBMIT
