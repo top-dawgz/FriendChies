@@ -8,7 +8,7 @@ dogController.getAllDogs = async (req, res, next) => {
     const response = await db.query(getAllDogs);
     let listOfDogs = response.rows;
     // You can't show up as a potential match. So we have to filter yourself
-    listOfDogs = listOfDogs.filter(dog => {
+    listOfDogs = listOfDogs.filter((dog) => {
       return dog.id !== res.locals.dogProfileId;
     });
     // If dogController.getAllSwipes is called before getAllSwipes.getAllDogs,
@@ -17,8 +17,8 @@ dogController.getAllDogs = async (req, res, next) => {
     // that exists in listOfDogs
     const swipedIds = res.locals.swipedIds;
     if (swipedIds) {
-      const filteredListOfDogs = listOfDogs.filter(dog => {
-        return !swipedIds.includes(dog.id)
+      const filteredListOfDogs = listOfDogs.filter((dog) => {
+        return !swipedIds.includes(dog.id);
       });
       res.locals.listOfDogs = filteredListOfDogs;
     } else {
@@ -36,55 +36,59 @@ dogController.getAllSwipes = async (req, res, next) => {
     if (!dogProfileId) {
       throw {
         status: 500,
-        error: "dogProfileId is undefined; dogController.getLoggedInUsersDogProfileId must be called first"
-      }
+        error:
+          'dogProfileId is undefined; dogController.getLoggedInUsersDogProfileId must be called first',
+      };
     }
     const query = {
       text: `SELECT swiped_id FROM swipes WHERE swiper_id = $1;`,
       values: [dogProfileId],
-    }
+    };
     const response = await db.query(query);
     const swipedIds = [];
     // I need to destructure each row for the ID to be easily used
     // by the rest of the program
-    response.rows.forEach(r => {
+    response.rows.forEach((r) => {
       swipedIds.push(r.swiped_id);
-    })
-    console.log('swipedIds', swipedIds)
+    });
+    console.log('swipedIds', swipedIds);
     res.locals.swipedIds = swipedIds;
     return next();
   } catch (err) {
     return next(err);
   }
-}
+};
 
 // checks if params.profileId belongs to user
-dogController.hasProfile  = async (req, res, next) => {
+dogController.hasProfile = async (req, res, next) => {
   try {
     const searchQuery = 'SELECT * FROM dogProfiles WHERE user_id=$1 AND id=$2';
-    const response = await db.query(searchQuery, [res.locals.userId, req.params.profileId])
+    const response = await db.query(searchQuery, [
+      res.locals.userId,
+      req.params.profileId,
+    ]);
     const data = response.rows;
 
-    if (!data.length) return next({log: 'profile not valid'})
+    if (!data.length) return next({ log: 'profile not valid' });
     return next();
-  } catch(err) {
-    return next(err)
+  } catch (err) {
+    return next(err);
   }
-}
+};
 
 // gets all dogProfiles belonging to user
-dogController.getProfiles  = async (req, res, next) => {
+dogController.getProfiles = async (req, res, next) => {
   try {
-    const profileQuery = `SELECT * FROM dogProfiles WHERE user_id=$1`
+    const profileQuery = `SELECT * FROM dogProfiles WHERE user_id=$1`;
     const result = await db.query(profileQuery, [res.locals.userId]);
     const data = result.rows;
     //TODO: return multiple profiles
     res.locals.profile = data[0];
     return next();
-  } catch(err) {
-    return next(err)
+  } catch (err) {
+    return next(err);
   }
-}
+};
 
 dogController.getMatches = async (req, res, next) => {
   try {
@@ -185,7 +189,6 @@ dogController.addSwipe = async (req, res, next) => {
 };
 
 dogController.addToUserLikes = async (req, res, next) => {};
-
 
 //TODO NEXT: I suspect this function might be adding too many matches
 //It currently adds the match that I want it to without throwing an error
@@ -289,13 +292,15 @@ dogController.updateLikes = async (req, res, next) => {
 
 // Create new profile in SQL
 dogController.createProfile = async (req, res, next) => {
+  console.log(res.locals.profile);
+  if (res.locals.profile !== undefined) return next();
   try {
     // const user_id = req.user.id;
     const user_id = res.locals.userId;
-    const { name, breed, owner, age, sex, size, about } = req.body;
+    const { name, breed, owner, age, sex, size, about, image } = req.body;
     const query = {
-      text: `INSERT into dogProfiles (owner, name, sex, breed, size, age, user_id, about) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);`,
-      values: [owner, name, sex, breed, size, age, user_id, about],
+      text: `INSERT into dogProfiles (owner, name, sex, breed, size, age, user_id, about, img_src) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`,
+      values: [owner, name, sex, breed, size, age, user_id, about, image],
     };
     let response = await db.query(query);
     res.locals.newProfile = response;
@@ -307,15 +312,16 @@ dogController.createProfile = async (req, res, next) => {
 
 // Create new profile in SQL
 dogController.updateProfile = async (req, res, next) => {
+  if (res.locals.profile === undefined) return next();
   try {
     // const user_id = req.user.id;
     const user_id = res.locals.userId;
-    const { name, breed, owner, age, sex, size, about } = req.body;
+    const { name, breed, owner, age, sex, size, about, image } = req.body;
     const query = {
       text: `UPDATE dogProfiles
-             SET owner = $1, name = $2, sex = $3, breed = $4, size = $5, age = $6, about = $7
+             SET owner = $1, name = $2, sex = $3, breed = $4, size = $5, age = $6, about = $7, img_src = $9
              WHERE user_id = $8;`,
-      values: [owner, name, sex, breed, size, age, about, user_id],
+      values: [owner, name, sex, breed, size, age, about, user_id, image],
     };
 
     let response = await db.query(query);
@@ -326,16 +332,15 @@ dogController.updateProfile = async (req, res, next) => {
   }
 };
 
-
-
 dogController.getLoggedInUsersDogProfileId = async (req, res, next) => {
   try {
     const userId = res.locals.userId;
     if (!userId) {
       throw {
         status: 500,
-        message: "userId is undefined; userController.isLoggedIn must be called first"
-      }
+        message:
+          'userId is undefined; userController.isLoggedIn must be called first',
+      };
     }
     const query = {
       text: `SELECT id FROM dogProfiles WHERE user_id = $1;`,
@@ -353,6 +358,23 @@ dogController.getLoggedInUsersDogProfileId = async (req, res, next) => {
     // be returned. If we want to add support for multiple dog profiles, this
     // will have to be changed
     res.locals.dogProfileId = response.rows[0].id;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
+
+// get profile by Id
+dogController.getProfileById = async (req, res, next) => {
+  try {
+    const user_id = res.locals.userId;
+    const getProfile = `
+      SELECT * FROM dogProfiles dp
+      WHERE user_id = $1
+    `;
+    const profile = await db.query(getProfile, [user_id]);
+    res.locals.profile = profile.rows[0];
+
     return next();
   } catch (err) {
     return next(err);
