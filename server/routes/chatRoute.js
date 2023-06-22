@@ -7,4 +7,8 @@ router.get('/:chatroomId', chatController.getMessages, (req,res) => {
     res.status(200).send(res.locals.messages);
 } )
 
+router.post('/:chatroomId', chatController.postMessages, (req,res) => {
+    res.status(200).send('res.locals.messages');
+} )
+
 module.exports = router;

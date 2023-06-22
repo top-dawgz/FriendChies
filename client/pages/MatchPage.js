@@ -22,7 +22,7 @@ export default function MatchPage() {
   return (
     <div className="match-page">
       <MatchList currentDog={ currentDog } setCurrentDog={ setCurrentDog } profileId={profileId} />
-      <MatchChat />
+      <MatchChat profileId={profileId} />
       <UserProfile dog={ currentDog } />
     </div>
   );
