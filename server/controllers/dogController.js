@@ -51,7 +51,6 @@ dogController.getAllSwipes = async (req, res, next) => {
     response.rows.forEach((r) => {
       swipedIds.push(r.swiped_id);
     });
-    console.log('swipedIds', swipedIds);
     res.locals.swipedIds = swipedIds;
     return next();
   } catch (err) {
@@ -263,7 +262,6 @@ dogController.updateMatch = async (req, res, next) => {};
 dogController.removeMatch = async (req, res, next) => {
   try {
     const { matchId } = req.body;
-    console.log('matched id', req.body);
     const deleteQuery = `
     DELETE FROM matches
     WHERE (profile_id = $1 AND match_id = $2) OR (profile_id = $2 AND match_id = $1)
@@ -292,7 +290,6 @@ dogController.updateLikes = async (req, res, next) => {
 
 // Create new profile in SQL
 dogController.createProfile = async (req, res, next) => {
-  console.log(res.locals.profile);
   if (res.locals.profile !== undefined) return next();
   try {
     // const user_id = req.user.id;

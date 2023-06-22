@@ -15,12 +15,6 @@ export default function SignupPage() {
       
     async function signup() {
        try {
-        console.log('signup function activated');
-        console.log('USERNAME IS', userVal)
-        console.log('PASSWORD IS', passVal)
-        console.log('PASSWORD CONFIRMATION IS', passConfirmationVal)
-       
-        console.log('before redirect')
         // return redirect("/login");
         navigate("/login")
 
@@ -38,7 +32,6 @@ export default function SignupPage() {
     };
 
     async function handleSubmit(e) {
-        console.log('SIGN UP handleSubmit has been clicked')
         e.preventDefault()
         await signup();
     }

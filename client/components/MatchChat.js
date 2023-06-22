@@ -1,33 +1,33 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-export default function MatchChat({profileId}) {
+export default function MatchChat({profileId, matchId}) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  
+
     // TODO: get chatroomId
   const chatroomId = 1;
 
   useEffect(() => {
 
     async function getMessages() {
-      const response = await axios.get(`/api/chat/${chatroomId}`);
-      console.log('messages', response.data);
+      const response = await axios.put(`/api/chat/${profileId}`,{matchId: matchId});
       setMessages(response.data);
     }
     getMessages();
-  }, []);
+  }, [matchId]);
 
   async function sendMessage() {
-    const response = await axios.post(`/api/chat/${chatroomId}`, {senderId: profileId, messageText: newMessage});
-    console.log(response)
+    if (newMessage.length) {
+        const response = await axios.post(`/api/chat/${chatroomId}`, {senderId: profileId, messageText: newMessage});
+    }
   }
   return (
     <div>
       <div>Match Chat</div>
       {messages.map((message) => {
         return (
-          <div>
+          <div key={message.id}>
             <div>{message.owner}</div>
             <div>{message.messagetext}</div>
           </div>

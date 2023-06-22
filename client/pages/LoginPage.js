@@ -18,7 +18,6 @@ export default function LoginPage() {
                 password: passVal
             })
 
-            console.log('before redirect')
         // return redirect("/login");
             navigate("/profile")
         }
@@ -29,7 +28,6 @@ export default function LoginPage() {
     };
 
     async function handleSubmit(e) {
-        console.log('LOGIN handleSubmit has been clicked')
         e.preventDefault()
         await login();
 

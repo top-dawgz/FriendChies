@@ -5,7 +5,6 @@ import poop from '../assets/poop.png';
 
 export default function Card(props) {
   const { dog } = props;
-  console.log('dog', dog);
   // like function
   async function handleLike() {
     await handleSwipe(true);
@@ -23,7 +22,6 @@ export default function Card(props) {
         liked: liked,
       };
       const response = await axios.post('/api/dogs/swipe', body);
-      console.log(response);
       if (response.data === "A match was found!") {
         props.alertMatch();
       }

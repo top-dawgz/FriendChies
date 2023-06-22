@@ -26,7 +26,6 @@ userController.checkUserExists = async (req, res, next) => {
   // check for user
   try {
     const result = await db.query(`SELECT * FROM users WHERE username= $1`, [username]);
-    console.log(result)
     if (result.rows.length !== 0) {
       //error for is username exists
       return res.status(409).send({
@@ -42,11 +41,8 @@ userController.checkUserExists = async (req, res, next) => {
 }
 
 userController.createUser = async (req, res, next) => {
-    console.log('createUser is activated')
-
     try {
       const { username, password } = req.body;
-      console.log('reqBODY', req.body);
       //creating new User
       const createUserSQL = `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id;`;
       const hashPassword = await bcrypt.hash(password, SALT_WORK_FACTOR)
@@ -67,8 +63,6 @@ userController.verifyUser = async (req, res, next) => {
   //Until this is implemented, get the logged in user's id
   //with req.user.id, which is set to 1.
   const { username, password } = req.body;
-  console.log('GETLOGGEDIN USERNAME', username);
-  console.log('GETLOGGEDIN PASSWORD', password);
   const findUserSQL = `SELECT * FROM users WHERE username = $1;`
   
 
@@ -78,10 +72,6 @@ userController.verifyUser = async (req, res, next) => {
     const data = response.rows;
     
       //give an error
-      
-      console.log('findUSERSQL query activated')
-      console.log('findUSERSQLresponse', response.rows)
-      
       if (!response.rows.length) {
         throw new Error('response.row is an empty array')
       } else {
@@ -90,7 +80,6 @@ userController.verifyUser = async (req, res, next) => {
       const match = await bcrypt.compare(password, data[0].password)
       
       if (match) {
-        console.log('password bcrypt compare activated')
       return next();
 
       } else {
