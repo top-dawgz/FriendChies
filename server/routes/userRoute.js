@@ -3,9 +3,9 @@ const userController = require('../controllers/userController');
 const router = express.Router();
 
 //test
-// router.get('/', userController.isLoggedIn, (req, res) => {
-//     res.status(200).send('res.locals.response');
-// })
+router.get('/', userController.isLoggedIn, (req, res) => {
+    res.status(200).json({userId: res.locals.userId});
+})
 
 //middleware to login
 router.post('/signup', userController.checkUserExists, userController.createUser, (req, res) => {
