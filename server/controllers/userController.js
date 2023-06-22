@@ -108,12 +108,13 @@ userController.verifyUser = async (req, res, next) => {
 userController.sessions = async (req, res, next) => {
   const user = res.locals.userId;
   const jwtToken = await jwt.sign({id: user}, process.env.SECRET_KEY)
-  res.cookie('ssid', jwtToken, {httpOnly: true, secure: true})
+  res.cookie('ssid', jwtToken, {httpOnly: true, secure: false})
   return next();
 }
 
 userController.isLoggedIn = async (req, res, next) => {
  try {
+  console.log('req.cookies', req.cookies)
   if (req.cookies.ssid) {
     jwt.verify(req.cookies.ssid, process.env.SECRET_KEY)
     return next();

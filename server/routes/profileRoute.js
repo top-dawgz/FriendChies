@@ -8,10 +8,17 @@ router.get('/matches/:profileId', dogController.getMatches, (req, res) => {
   return res.status(200).send(res.locals.matches);
 });
 
-// Get all profiles
-router.get('/dogs', dogController.getAllDogs, (req, res) => {
-  return res.status(200).send(res.locals.listOfDogs);
-});
+// Get all potential likes
+router.get(
+  '/dogs',
+  userController.isLoggedIn,
+  dogController.getLoggedInUsersDogProfileId,
+  dogController.getAllSwipes,
+  dogController.getAllDogs,
+  (req, res) => {
+    return res.status(200).send(res.locals.listOfDogs);
+  }
+);
 
 router.post(
   '/swipe',

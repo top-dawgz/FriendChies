@@ -14,6 +14,28 @@ dogController.getAllDogs = async (req, res, next) => {
   }
 };
 
+dogController.getAllSwipes = async (req, res, next) => {
+  try {
+    const dogProfileId = res.locals.dogProfileId;
+    if (!dogProfileId) {
+      throw {
+        status: 500,
+        error: "dogProfileId is undefined; dogController.getLoggedInUsersDogProfileId must be called first"
+      }
+    }
+    const query = {
+      text: `SELECT * FROM swipes WHERE swiped_id = $1;`,
+      values: [dogProfileId],
+    }
+    const response = await db.query(query);
+    console.log(response);
+    res.locals.swipes = response;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+}
+
 dogController.getMatches = async (req, res, next) => {
   try {
     // id should be profile id of logged in user
@@ -228,9 +250,16 @@ dogController.createProfile = async (req, res, next) => {
 
 dogController.getLoggedInUsersDogProfileId = async (req, res, next) => {
   try {
+    const userId = res.locals.userId;
+    if (!userId) {
+      throw {
+        status: 500,
+        message: "userId is undefined; userController.isLoggedIn must be called first"
+      }
+    }
     const query = {
       text: `SELECT id FROM dogProfiles WHERE user_id = $1;`,
-      values: res.locals.userId,
+      values: userId,
     };
     const response = await db.query(query);
     if (!response) {
