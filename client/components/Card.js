@@ -33,7 +33,7 @@ export default function Card(props) {
   //TODO NEXT: test matches
 
   return (
-    <div className="card w-1/2 pt-2 pb-4 bg-indigo-50 border-indigo-600 border-2">
+    <div className="card w-1/2 pt-2 pb-4 bg-indigo-50 border-indigo-600 border-2 ">
       <div className="text-center" id="data">
         <h2 className="text-xl m-2 text-4xl">{dog.name}</h2>
         {/* Carousel to swipe through pictures? */}
@@ -93,7 +93,20 @@ export default function Card(props) {
         <div className="flex justify-center">
           <div
             id="dislike-button"
-            className="flex items-center active:bg-indigo-500 hover:bg-indigo-300 mr-2 p-1.5 rounded-md w-16 h-16 cursor-pointer border-solid border-2 border-indigo-600"
+            className="
+              flex items-center
+              active:bg-indigo-500
+              hover:bg-indigo-300
+              mr-2
+              p-1.5
+              rounded-md
+              w-16 
+              h-16 
+              cursor-pointer 
+              border-solid 
+              border-2 
+              border-indigo-600
+            "
             onClick={handleDislike}
           >
             <img src={poop} />
