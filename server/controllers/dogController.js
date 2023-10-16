@@ -1,4 +1,4 @@
-const db = require('../models/dbModel');
+const db = require("../models/dbModel");
 
 const dogController = {};
 
@@ -37,7 +37,7 @@ dogController.getAllSwipes = async (req, res, next) => {
       throw {
         status: 500,
         error:
-          'dogProfileId is undefined; dogController.getLoggedInUsersDogProfileId must be called first',
+          "dogProfileId is undefined; dogController.getLoggedInUsersDogProfileId must be called first",
       };
     }
     const query = {
@@ -61,14 +61,14 @@ dogController.getAllSwipes = async (req, res, next) => {
 // checks if params.profileId belongs to user
 dogController.hasProfile = async (req, res, next) => {
   try {
-    const searchQuery = 'SELECT * FROM dogProfiles WHERE user_id=$1 AND id=$2';
+    const searchQuery = "SELECT * FROM dogProfiles WHERE user_id=$1 AND id=$2";
     const response = await db.query(searchQuery, [
       res.locals.userId,
       req.params.profileId,
     ]);
     const data = response.rows;
 
-    if (!data.length) return next({ log: 'profile not valid' });
+    if (!data.length) return next({ log: "profile not valid" });
     return next();
   } catch (err) {
     return next(err);
@@ -160,7 +160,7 @@ dogController.addSwipe = async (req, res, next) => {
     const liked = body.liked;
     if (!swipedId || !swiperId || liked === undefined) {
       throw {
-        message: 'Missing property in request body',
+        message: "Missing property in request body",
         status: 400,
       };
     }
@@ -339,7 +339,7 @@ dogController.getLoggedInUsersDogProfileId = async (req, res, next) => {
       throw {
         status: 500,
         message:
-          'userId is undefined; userController.isLoggedIn must be called first',
+          "userId is undefined; userController.isLoggedIn must be called first",
       };
     }
     const query = {
@@ -351,7 +351,7 @@ dogController.getLoggedInUsersDogProfileId = async (req, res, next) => {
       throw {
         status: 400,
         message:
-          'The logged in user does not have a dogProfile, or there is no logged in user',
+          "The logged in user does not have a dogProfile, or there is no logged in user",
       };
     }
     // If the logged in user has multiple dogProfiles, only the first one will

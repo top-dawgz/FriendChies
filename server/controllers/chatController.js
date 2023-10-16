@@ -1,4 +1,4 @@
-const db = require('../models/dbModel');
+const db = require("../models/dbModel");
 
 const chatController = {};
 
@@ -19,7 +19,10 @@ chatController.findChatroom = async (req, res, next) => {
         RETURNING id
         `;
 
-      const response = await db.query(createQuery, [req.params.profileId, matchId]);
+      const response = await db.query(createQuery, [
+        req.params.profileId,
+        matchId,
+      ]);
       const chatIds = response.rows;
       res.locals.chatroomId = chatIds[0].id;
     } else {
@@ -44,7 +47,7 @@ chatController.getMessages = async (req, res, next) => {
 
     return next();
   } catch (e) {
-    return next({ log: 'no messages found' });
+    return next({ log: "no messages found" });
   }
 };
 
@@ -66,7 +69,7 @@ chatController.postMessages = async (req, res, next) => {
 
     return next();
   } catch (e) {
-    return next({ log: 'no messages found' });
+    return next({ log: "no messages found" });
   }
 };
 

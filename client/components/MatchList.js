@@ -1,7 +1,7 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-import MatchCard from '../components/MatchCard.js';
-import axios from 'axios';
+import React from "react";
+import { useEffect, useState } from "react";
+import MatchCard from "../components/MatchCard.js";
+import axios from "axios";
 
 export default function MatchList({ profileId, currentDog, setCurrentDog }) {
   const [matches, setMatches] = useState([]);
@@ -15,7 +15,7 @@ export default function MatchList({ profileId, currentDog, setCurrentDog }) {
         setMatches(data);
         setCurrentDog(data[0].match_id);
       } catch (err) {
-        console.log('There was an error fetching data: ', err);
+        console.log("There was an error fetching data: ", err);
       }
     };
     fetchDogs();
@@ -35,9 +35,9 @@ export default function MatchList({ profileId, currentDog, setCurrentDog }) {
   }
 
   return (
-    <div className='match-tab'>
+    <div className="match-tab">
       <h1 className="text-2xl text-center m-3">Matches</h1>
-      <div className='match-list'>
+      <div className="match-list">
         {matches.map((dog) => (
           <MatchCard
             key={dog.match_id}

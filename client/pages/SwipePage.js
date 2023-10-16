@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import mockData from './mock-data.js';
-import Card from '../components/Card.js';
+import React, { useState, useEffect } from "react";
+import mockData from "./mock-data.js";
+import Card from "../components/Card.js";
 import axios from "axios";
 
 export default function SwipePage() {
@@ -11,7 +11,7 @@ export default function SwipePage() {
 
   useEffect(() => {
     async function getDogs() {
-      const response = await axios('/api/dogs/dogs'); //Get potential likes
+      const response = await axios("/api/dogs/dogs"); //Get potential likes
       const data = response.data;
       setDogList(data);
       setCurrentDog(data[0]);
@@ -32,14 +32,24 @@ export default function SwipePage() {
   }
 
   return (
-    <div >
+    <div>
       <header>
-      <h3 className="m-3 text-3xl text-center">Find Dogs</h3>
+        <h3 className="m-3 text-3xl text-center">Find Dogs</h3>
       </header>
       <div id="swipe-page-content" className="flex justify-center">
-      {currentDog ? <Card goToNextDog={goToNextDog} dog={currentDog} alertMatch={alertMatch}/> : <p>There are no more pups left to swipe on!</p>}
+        {currentDog ? (
+          <Card
+            goToNextDog={goToNextDog}
+            dog={currentDog}
+            alertMatch={alertMatch}
+          />
+        ) : (
+          <p>There are no more pups left to swipe on!</p>
+        )}
       </div>
-      { message ? <p className="m-4 text-center font-bold text-amber-600">{message}</p> : null }
+      {message ? (
+        <p className="m-4 text-center font-bold text-amber-600">{message}</p>
+      ) : null}
     </div>
   );
 }

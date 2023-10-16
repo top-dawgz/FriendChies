@@ -1,7 +1,7 @@
-import axios from 'axios';
-import React from 'react';
-import paw from '../assets/paw.png';
-import poop from '../assets/poop.png';
+import axios from "axios";
+import React from "react";
+import paw from "../assets/paw.png";
+import poop from "../assets/poop.png";
 
 export default function Card(props) {
   const { dog } = props;
@@ -21,7 +21,7 @@ export default function Card(props) {
         swiped_id: props.dog.id,
         liked: liked,
       };
-      const response = await axios.post('/api/dogs/swipe', body);
+      const response = await axios.post("/api/dogs/swipe", body);
       if (response.data === "A match was found!") {
         props.alertMatch();
       }
