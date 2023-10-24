@@ -17,16 +17,19 @@ Ensure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/)
 ### Installation
 
 1. Clone the repo:
+
 ```
 git clone https://github.com/<your-username>/friendchies.git
 ```
 
 2. Navigate to the project directory:
+
 ```
 cd friendchies
 ```
 
 3. Install the necessary packages:
+
 ```
 npm install
 ```
@@ -34,18 +37,23 @@ npm install
 ## Usage
 
 #### Development
+
 For development purposes, run:
+
 ```
 npm run dev
 ```
 
 #### Production
+
 For starting the server in production mode:
+
 ```
 npm start
 ```
 
 To build for production:
+
 ```
 npm run build
 ```

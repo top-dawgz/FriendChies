@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
- 
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
 * {
   color: #2d1f33;
- }
+}
 
 body {
   font-family: Poppins, sans-serif;
@@ -52,12 +52,11 @@ body {
   flex-grow: 1;
 }
 
-
 .match-buttons {
   display: flex;
   flex-direction: column;
 }
-.match-buttons button{
+.match-buttons button {
   background: none;
   border: none;
   font-size: 2em;

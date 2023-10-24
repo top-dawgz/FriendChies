@@ -1,50 +1,50 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: './client/index.js',
+  entry: "./client/index.js",
   output: {
-    path: path.resolve(__dirname, './build'),
-    publicPath: '/',
-    filename: 'bundle.js',
+    path: path.resolve(__dirname, "./build"),
+    publicPath: "/",
+    filename: "bundle.js",
   },
-  plugins: [new HtmlWebpackPlugin({ template: './index.html' })],
+  plugins: [new HtmlWebpackPlugin({ template: "./index.html" })],
   module: {
     rules: [
       {
         test: /.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-react', '@babel/preset-env'],
+            presets: ["@babel/preset-react", "@babel/preset-env"],
           },
         },
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"],
       },
       {
         // import css
         test: /\.s[ac]ss$/i,
-        include: path.resolve(__dirname, 'src'),
-        use: ['style-loader', 'css-loader', 'sass-loader'],
-      },{
+        include: path.resolve(__dirname, "src"),
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
+      {
         test: /\.(gif|png|jpe?g|svg)$/i,
         use: [
-          'file-loader',
+          "file-loader",
           {
-            loader: 'image-webpack-loader',
+            loader: "image-webpack-loader",
             options: {
               bypassOnDebug: true, // webpack@1.x
               disable: true, // webpack@2.x and newer
             },
           },
         ],
-      }
-
+      },
     ],
   },
   devServer: {
@@ -53,7 +53,7 @@ module.exports = {
     hot: true,
     compress: true,
     proxy: {
-      '/api': 'http://localhost:3000',
+      "/api": "http://localhost:3000",
     },
     historyApiFallback: true,
   },
