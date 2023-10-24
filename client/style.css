@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+* {
+  color: #2d1f33;
+}
+
+body {
+  font-family: Poppins, sans-serif;
+  margin: 0;
+}
+
+.match-page {
+  display: grid;
+  grid-template-columns: 2fr 3fr 3fr;
+}
+
+.match-selection {
+  display: flex;
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 10px;
+  margin: 10px 0;
+  list-style-type: none;
+  cursor: pointer;
+}
+
+.match-selection:hover {
+  box-shadow: 2px 5px #907ee6;
+}
+
+.match-tab {
+  padding: 0 20px;
+  height: 100vh;
+}
+
+.match-list {
+  overflow-y: scroll;
+}
+
+.match-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border: thin solid grey;
+  border-radius: 1em;
+  margin: 10px;
+}
+
+.match-details-container {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.match-buttons {
+  display: flex;
+  flex-direction: column;
+}
+.match-buttons button {
+  background: none;
+  border: none;
+  font-size: 2em;
+}
+#match-pet {
+  font-weight: bold;
+  font-size: 2em;
+}
+
+#match-owner {
+  font-weight: lighter;
+}
+
+h2 {
+  margin: 0;
+}
+
+.carousel-item {
+  text-align: center;
+}
+.carousel-item img {
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+}
+
+.carousel-slide a {
+  background-color: black;
+}
