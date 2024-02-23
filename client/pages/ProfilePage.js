@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import FileUpload from "./FileUpload";
+import ImageGallery from "./ImageGallery";
 
 export default function ProfilePage() {
   const [name, setName] = useState("");
@@ -19,7 +21,7 @@ export default function ProfilePage() {
   const [ownerEdit, setEditOwner] = useState(false);
   const [aboutEdit, setEditAbout] = useState(false);
   const [imageEdit, setEditImage] = useState(false);
-
+  const [imageKeys, setImageKeys] = useState([]);
   useEffect(() => {
     const getProfile = async () => {
       try {
@@ -54,9 +56,25 @@ export default function ProfilePage() {
     });
     window.location.reload();
   }
+
+  useEffect(() => {
+    async function getImages() {
+      try {
+        const response = await axios.get(`/api/images`);
+        const data = response.data;
+        setImageKeys(data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getImages();
+  }, []);
+
   return (
     <div>
       <h3 className="m-3 text-3xl text-center">Profile</h3>
+      <FileUpload />
+      <ImageGallery imageKeys={imageKeys} />
       <div className="mx-auto w-2/3 p-8 rounded flex flex-column justify-center items-centercard w-1/2 pt-2 pb-4 bg-indigo-50 border-indigo-600 border-2">
         <div className="text-center">
           <label className="font-bold text-center text-2xl font-bold m-3">
