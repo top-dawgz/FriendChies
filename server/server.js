@@ -8,10 +8,19 @@ require("dotenv").config();
 const userRouter = require("./routes/userRoute");
 const profileRouter = require("./routes/profileRoute");
 const chatRouter = require("./routes/chatRoute");
+const imageRouter = require("./routes/imageRoute");
 
 const app = express();
 
 const PORT = 3000;
+
+const AWS = require("aws-sdk");
+AWS.config.update({
+  accessKeyId: process.env.YOUR_ACCESS_KEY_ID,
+  secretAccessKey: process.env.YOUR_SECRET_ACCESS_KEY,
+  region: process.env.YOUR_S3_BUCKET_REGION,
+});
+const s3 = new AWS.S3();
 
 app.use(cors());
 app.use(express.json());
@@ -25,6 +34,25 @@ app.use("/build", express.static(path.join(__dirname, "../build")));
 app.use("/api/user", userRouter);
 app.use("/api/dogs", profileRouter);
 app.use("/api/chat", chatRouter);
+app.use('/api/images', imageRouter);
+
+app.get("/api/generate-presigned-url", (req, res) => {
+  const params = {
+    Bucket: process.env.BUCKET_NAME,
+    Key: req.query.fileName, // The name of the file to upload
+    Expires: 60, // The URL expiration time in seconds
+    ContentType: req.query.fileType, // The type of file to upload
+  };
+
+  s3.getSignedUrl("putObject", params, (err, url) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: "Error generating the URL" });
+    } else {
+      res.json({ url });
+    }
+  });
+});
 
 // serve index.html
 app.get("/*", (req, res) => {
